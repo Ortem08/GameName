@@ -6,11 +6,13 @@ public class PressedButtonActivate : MonoBehaviour
 {
     private Inventory inventory;
     public int id;
+    private PlayerControl player;
 
     // Start is called before the first frame update
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
     }
 
     public void DropItem()

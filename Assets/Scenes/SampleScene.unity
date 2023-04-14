@@ -3184,6 +3184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b607bfeedd14d41a12d536e292a7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canWalk: 1
 --- !u!195 &1336420452
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3851,7 +3852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 34.927994, y: -96.91821}
+  m_AnchoredPosition: {x: 34.928, y: -96.919}
   m_SizeDelta: {x: 100, y: 14.3583}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120103921
