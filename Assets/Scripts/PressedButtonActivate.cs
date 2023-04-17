@@ -12,7 +12,6 @@ public class PressedButtonActivate : MonoBehaviour
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
     }
 
     public void DropItem()

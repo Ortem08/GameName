@@ -14,7 +14,7 @@ public class PickUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Wall"))
         {
             for (int j = 0; j < inventory.slots.Length; j++)
             {
