@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class PressedButtonActivate : MonoBehaviour
 {
-    private Inventory inventory;
-    public int id;
-    private PlayerControl player;
+    private Inventory _inventory;
+    public int Id;
+    private PlayerControl _player;
 
     // Start is called before the first frame update
     void Start()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
     public void DropItem()
     {
-        inventory.isFull[id] = false;
+        _inventory.isFull[Id] = false;
         if (transform.childCount > 0)
-        {
             transform.GetChild(0).GetComponent<Spawn>().SpawnDroppedItem();
-        }
     }
 }

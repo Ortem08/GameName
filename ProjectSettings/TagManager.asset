@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Button
   - Wall
+  - NPC
   layers:
   - Default
   - TransparentFX

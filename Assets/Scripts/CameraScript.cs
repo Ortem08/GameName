@@ -4,21 +4,43 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    private Transform player;
+    public float smoothing = 1.5f;
+    public Vector2 offset = new Vector2(2f, 1f);
+    public bool isLeft;
 
+    private Transform player;
+    private int lastX;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
+        offset = new Vector2(offset.x, offset.y);
+        FindPlayer(isLeft);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 cameraPosition = transform.position;
-        cameraPosition.x = player.position.x;
-        cameraPosition.y = player.position.y;
+        int currentX = Mathf.RoundToInt(player.position.x);
+         
+        if (currentX > lastX)
+            isLeft = false;
+        else if (currentX < lastX)
+            isLeft = true;
+        lastX = currentX;
+        Vector3 target = isLeft
+            ? new Vector3(player.position.x - offset.x, player.position.y + offset.y, transform.position.z)
+            : new Vector3(player.position.x + offset.x, player.position.y + offset.y, transform.position.z);
+        var currentPosition = Vector3.Lerp(transform.position, target, smoothing * Time.deltaTime);
+        transform.position = currentPosition;
+    }
 
-        transform.position = cameraPosition;
+    public void FindPlayer(bool playerIsLeft)
+    {
+        player = GameObject.FindWithTag("Player").transform;
+        lastX = Mathf.RoundToInt(player.position.x);
+
+        transform.position = playerIsLeft 
+            ? new Vector3(player.position.x - offset.x, player.position.y - offset.y, transform.position.z)
+            : new Vector3(player.position.x + offset.x, player.position.y + offset.y, transform.position.z);
     }
 }

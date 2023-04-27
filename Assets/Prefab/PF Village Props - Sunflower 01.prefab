@@ -161,4 +161,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1aae17e411d2f45b3099655d56564b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotButton: {fileID: 4475878599859816513, guid: 41afdf164a50b574f945ec67525036ca, type: 3}
+  SlotButton: {fileID: 4475878599859816513, guid: 41afdf164a50b574f945ec67525036ca, type: 3}

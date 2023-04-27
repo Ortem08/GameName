@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-    private Inventory inventory;
-    public GameObject slotButton;
+    private Inventory _inventory;
+    public GameObject SlotButton;
 
     private void Start()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Wall"))
+        if (other.CompareTag("Player") || other.CompareTag("Wall") || other.CompareTag("NPC"))
         {
-            for (int j = 0; j < inventory.slots.Length; j++)
+            for (int j = 0; j < _inventory.slots.Length; j++)
             {
-                if (!inventory.isFull[j])
+                if (!_inventory.isFull[j])
                 {
                     Destroy(gameObject);
-                    Instantiate(slotButton, inventory.slots[j].transform);
-                    inventory.isFull[j] = true;
+                    Instantiate(SlotButton, _inventory.slots[j].transform);
+                    _inventory.isFull[j] = true;
                     break;
                 }
             }
