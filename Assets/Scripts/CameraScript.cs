@@ -10,6 +10,12 @@ public class CameraScript : MonoBehaviour
 
     private Transform player;
     private int lastX;
+
+    [SerializeField] private float rightLimit;
+    [SerializeField] private float leftLimit;
+    [SerializeField] private float topLimit;
+    [SerializeField] private float bottomLimit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +27,7 @@ public class CameraScript : MonoBehaviour
     void Update()
     {
         int currentX = Mathf.RoundToInt(player.position.x);
-         
+
         if (currentX > lastX)
             isLeft = false;
         else if (currentX < lastX)
@@ -32,6 +38,13 @@ public class CameraScript : MonoBehaviour
             : new Vector3(player.position.x + offset.x, player.position.y + offset.y, transform.position.z);
         var currentPosition = Vector3.Lerp(transform.position, target, smoothing * Time.deltaTime);
         transform.position = currentPosition;
+
+        transform.position = new Vector3
+        (
+            Mathf.Clamp(transform.position.x, leftLimit, rightLimit),
+            Mathf.Clamp(transform.position.y, bottomLimit, topLimit),
+            transform.position.z
+        );
     }
 
     public void FindPlayer(bool playerIsLeft)
@@ -42,5 +55,14 @@ public class CameraScript : MonoBehaviour
         transform.position = playerIsLeft 
             ? new Vector3(player.position.x - offset.x, player.position.y - offset.y, transform.position.z)
             : new Vector3(player.position.x + offset.x, player.position.y + offset.y, transform.position.z);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(new Vector2(leftLimit, topLimit), new Vector2(rightLimit, topLimit));
+        Gizmos.DrawLine(new Vector2(leftLimit, bottomLimit), new Vector2(rightLimit, bottomLimit));
+        Gizmos.DrawLine(new Vector2(leftLimit, topLimit), new Vector2(leftLimit, bottomLimit));
+        Gizmos.DrawLine(new Vector2(rightLimit, topLimit), new Vector2(rightLimit, bottomLimit));
     }
 }

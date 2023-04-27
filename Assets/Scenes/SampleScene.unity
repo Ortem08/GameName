@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bf04dbe9a72114eb484019f9ddce67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  Id: 0
 --- !u!1 &197375802
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,6 +4834,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f521e5e49168842448de0d367dda8778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothing: 1.5
+  offset: {x: 2, y: 1}
+  isLeft: 0
+  rightLimit: 10.09
+  leftLimit: -10.08
+  topLimit: 5.16
+  bottomLimit: -4.93
 --- !u!1001 &548818712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5292,7 +5299,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783024938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8be643c05b512143b382cc4b20ac699, type: 3}
   m_Name: 
@@ -5537,7 +5544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bf04dbe9a72114eb484019f9ddce67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
+  Id: 2
 --- !u!1 &931413732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5706,7 +5713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bf04dbe9a72114eb484019f9ddce67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  Id: 1
 --- !u!1 &1336420450
 GameObject:
   m_ObjectHideFlags: 0
@@ -6491,7 +6498,7 @@ GameObject:
   - component: {fileID: 2130166929}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Player
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
