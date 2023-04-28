@@ -12,8 +12,8 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     private Vector3 target;
     private NavMeshAgent agent;
-    public bool canWalk = true;
-    //private Transform[] buttons;
+    public bool isButton = true;
+    private Transform[] buttons;
 
     void Start()
     {
@@ -27,13 +27,19 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         SetTargetPosition();
-        SetAgentPosition();
     }
 
     void SetTargetPosition()
     {
-        if (Input.GetMouseButtonDown(0) && canWalk)
+        var mouse = Input.mousePosition;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            var camCenter = Camera.main.ViewportToScreenPoint(new Vector3(.5f, .5f, 0));
+            isButton = mouse.x < camCenter.x - 90 && mouse.x > camCenter.x - 395 && mouse.y < camCenter.y + 106 && mouse.y > camCenter.y + 93;
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (!isButton) { SetAgentPosition(); }
+        }
     }
 
     void SetAgentPosition()
