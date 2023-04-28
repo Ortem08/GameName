@@ -435,7 +435,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147795820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8be643c05b512143b382cc4b20ac699, type: 3}
   m_Name: 
@@ -566,7 +566,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -174.69998, y: 195.4}
+  m_AnchoredPosition: {x: -174.70001, y: 195.4}
   m_SizeDelta: {x: -829.4555, y: -417.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &197375805
@@ -613,7 +613,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -277.19992, y: 195.4}
+  m_AnchoredPosition: {x: -277.1999, y: 195.4}
   m_SizeDelta: {x: -829.4555, y: -417.4791}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &289685014
@@ -5428,7 +5428,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 20
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.25928813, g: 0.8773585, b: 0.14401919, a: 1}
   m_FlipX: 0
@@ -5748,7 +5748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b607bfeedd14d41a12d536e292a7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canWalk: 1
+  isButton: 1
 --- !u!195 &1336420452
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6072,7 +6072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -380.2999, y: 195.4}
+  m_AnchoredPosition: {x: -380.29987, y: 195.4}
   m_SizeDelta: {x: -829.4555, y: -417.4791}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1518301407
