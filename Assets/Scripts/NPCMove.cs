@@ -13,7 +13,7 @@ public class NPCMove : MonoBehaviour
 {
     private NavMeshAgent _agent;
     private Vector3 _target;
-    private Random _rnd = new Random();
+    private Random _rnd = new ();
     private List<Vector3> movePoints;
 
     // Start is called before the first frame update
@@ -33,14 +33,12 @@ public class NPCMove : MonoBehaviour
             SetTargetPosition();
             SetAgentPosition();
         }
-        
     }
 
     void SetTargetPosition()
     {
         var index = _rnd.Next(0, movePoints.Count);
         _target = movePoints[index];
-        Debug.Log((_target.x, _target.y));
     }
 
     void SetAgentPosition()
