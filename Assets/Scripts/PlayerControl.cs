@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class PlayerControl : MonoBehaviour
@@ -41,9 +43,10 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            var camCenter = Camera.main.ViewportToScreenPoint(new Vector3(.5f, .5f, 0));
-            isButton = mouse.x < camCenter.x - 90 && mouse.x > camCenter.x - 395 
-                                                  && mouse.y < camCenter.y + 106 && mouse.y > camCenter.y + 93;
+            var camUpY = Camera.main.pixelHeight;
+            isButton = mouse.x > 20 && mouse.x < 325
+                                    && mouse.y < camUpY - 15 && mouse.y > camUpY - 135;
+
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (!isButton)
                 agent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
