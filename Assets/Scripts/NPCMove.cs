@@ -43,6 +43,6 @@ public class NPCMove : MonoBehaviour
 
     void SetAgentPosition()
     {
-        _agent.SetDestination(new Vector3(_target.x, _target.y, transform.position.z));
+        _agent.SetDestination(new Vector3(_target.x, _target.y, 0));
     }
 }
