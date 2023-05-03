@@ -19,7 +19,7 @@ public class PickUp : MonoBehaviour
     {
         var distance = (_player.transform.position - gameObject.transform.position).magnitude;
         
-        if (Input.GetKeyDown(KeyCode.E) && _player.hit.collider?.tag == "Item" && Mathf.Abs(distance) <= _player.PickUpDistance)
+        if (Input.GetKeyDown(KeyCode.F) && _player.hit.collider?.tag == "Item" && Mathf.Abs(distance) <= _player.PickUpDistance)
         {
             for (int j = 0; j < _inventory.slots.Length; j++)
             {
