@@ -13,7 +13,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class PlayerControl : MonoBehaviour
 {
-    public float PickUpDistance = 1.5f;
+    public float PickUpDistance = 3f;
     public RaycastHit2D hit;
 
     private Vector3 target;
@@ -43,6 +43,7 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log(transform.TransformPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
             var camUpY = Camera.main.pixelHeight;
             isButton = mouse.x > 20 && mouse.x < 325
                                     && mouse.y < camUpY - 15 && mouse.y > camUpY - 135;

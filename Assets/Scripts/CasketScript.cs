@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class CasketScript : MonoBehaviour
 {
-    public Sprite casketImage;
+    public Sprite CasketImage;
     private Vector3 startPosition;
     private Vector3 direction;
     private Vector3 spawnPoint;
@@ -20,7 +20,7 @@ public class CasketScript : MonoBehaviour
 
         var newObj = new GameObject();
         newObj.AddComponent<SpriteRenderer>();
-        newObj.GetComponent<SpriteRenderer>().sprite = casketImage;
+        newObj.GetComponent<SpriteRenderer>().sprite = CasketImage;
         newObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
         newObj.transform.position = spawnPoint;
 
@@ -42,11 +42,5 @@ public class CasketScript : MonoBehaviour
     {
         var abc = npc.GetComponentInChildren<HpBar>();
         abc.ChangeHealth(-(1 / (distance * 10)));
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(new Vector3(0, 0, 0), new Vector3(3, 0, 0));
     }
 }

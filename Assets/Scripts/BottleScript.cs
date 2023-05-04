@@ -1,25 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class BottleScript : MonoBehaviour
 {
-    public Sprite bottleImage;
-
+    public Sprite BottleImage;
+    private GameObject bottle;
     private bool buttonPressed;
     private Vector3 spawnPoint;
     private GameObject[] npcs;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
-        StartCoroutine(WaitForKeyPress(KeyCode.Mouse1));
         
+        StartCoroutine(WaitForKeyPress(KeyCode.Mouse1));
+        bottle = GameObject.FindGameObjectWithTag("Used");
         npcs = GameObject.FindGameObjectsWithTag("NPC");
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (buttonPressed)
@@ -27,15 +28,39 @@ public class BottleScript : MonoBehaviour
             {
                 var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
                 if (distance < 3)
-                    MakeDamage(bro, distance);
+                {
+                    SlowDown(bro);
+                }
             }
     }
 
-    private void MakeDamage(GameObject npc, float distance)
+    private void SlowDown(GameObject npc)
     {
-        var abc = npc.GetComponentInChildren<HpBar>();
-        abc.ChangeHealth(-(1 / (distance * 10)));
+        var wasShocked = false;
+        var rnd = new System.Random();
+        var abc = npc.GetComponent<NavMeshAgent>();
+        abc.speed = 0.5f;
+        if (rnd.NextDouble() % 157 < 1e-4)
+        {
+            Debug.Log("shock");
+            wasShocked = true;
+            abc.speed = 0;
+            StartCoroutine(WaitFor(10));
+            abc.speed = 3.5f;
+        }
+        if(!wasShocked)
+        {
+            Debug.Log("not shock");
+            StartCoroutine(WaitFor(10));
+        }
     }
+
+    private IEnumerator WaitFor(int seconds)
+    {
+        yield return new WaitForSeconds(1);
+        Debug.Log("done");
+    }
+
 
     private IEnumerator WaitForKeyPress(KeyCode key)
     {
@@ -47,7 +72,7 @@ public class BottleScript : MonoBehaviour
 
         var newObj = new GameObject();
         newObj.AddComponent<SpriteRenderer>();
-        newObj.GetComponent<SpriteRenderer>().sprite = bottleImage;
+        newObj.GetComponent<SpriteRenderer>().sprite = BottleImage;
         newObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
         newObj.transform.position = spawnPoint;
         buttonPressed = true;

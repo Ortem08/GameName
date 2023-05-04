@@ -12,7 +12,7 @@ public class PressedButtonActivate : MonoBehaviour
     {
         _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
-
+    
     public void DropItem()
     {
         _inventory.isFull[Id] = false;

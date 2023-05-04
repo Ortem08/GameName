@@ -24,11 +24,10 @@ public class ItemUse : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && inventory.isFull[0])
         {
-
             var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[0] = false;
             var gameObj = new GameObject();
-            Debug.Log(item.name);
+
             AddComponents(gameObj, item);
 
             Destroy(item.gameObject);
@@ -36,12 +35,24 @@ public class ItemUse : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W) && inventory.isFull[1])
         {
-            Debug.Log(secondSlot.GetComponent<Transform>().GetChild(0));
+            var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
+            inventory.isFull[1] = false;
+            var gameObj = new GameObject();
+
+            AddComponents(gameObj, item);
+
+            Destroy(item.gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && inventory.isFull[2])
         {
-            Debug.Log(thirdSlot.GetComponent<Transform>().GetChild(0));
+            var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
+            inventory.isFull[2] = false;
+            var gameObj = new GameObject();
+
+            AddComponents(gameObj, item);
+
+            Destroy(item.gameObject);
         }
     }
 
@@ -50,19 +61,20 @@ public class ItemUse : MonoBehaviour
         if (item.name.Contains("Chest"))
         {
             gameObj.AddComponent<CasketScript>();
-            gameObj.GetComponent<CasketScript>().casketImage = item.sprite;
+            gameObj.GetComponent<CasketScript>().CasketImage = item.sprite;
         }
 
         if (item.name.Contains("Bottle"))
         {
             gameObj.AddComponent<BottleScript>();
-            gameObj.GetComponent<BottleScript>().bottleImage = item.sprite;
+            gameObj.GetComponent<BottleScript>().BottleImage = item.sprite;
+            gameObj.tag = "Used";
         }
 
-        if (item.name.Contains("Apple"))
-        {
-            gameObj.AddComponent<CasketScript>();
-            gameObj.GetComponent<CasketScript>().casketImage = item.sprite;
-        }
+        //if (item.name.Contains("Apple"))
+        //{
+        //    gameObj.AddComponent<CasketScript>();
+        //    gameObj.GetComponent<CasketScript>().CasketImage = item.sprite;
+        //}
     }
 }

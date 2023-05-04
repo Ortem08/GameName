@@ -1,33 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickUp : MonoBehaviour
 {
-    private Inventory _inventory;
+    private Inventory inventory;
     public GameObject SlotButton;
-    private PlayerControl _player;
+    private PlayerControl player;
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
     private void Update()
     {
-        var distance = (_player.transform.position - gameObject.transform.position).magnitude;
-        
-        if (Input.GetKeyDown(KeyCode.F) && _player.hit.collider?.tag == "Item" && Mathf.Abs(distance) <= _player.PickUpDistance)
+        var distance = (player.transform.position - gameObject.transform.position).magnitude;
+        if (Input.GetKeyDown(KeyCode.F) && player.hit.collider?.tag is "Item" && Mathf.Abs(distance) <= player.PickUpDistance)
         {
-            for (int j = 0; j < _inventory.slots.Length; j++)
+            for (int i = 0; i < inventory.slots.Length; i++)
             {
-                if (!_inventory.isFull[j])
+                if (!inventory.isFull[i])
                 {
                     Destroy(gameObject);
-                    Instantiate(SlotButton, _inventory.slots[j].transform);
-                    _inventory.isFull[j] = true;
+                    Instantiate(SlotButton, inventory.slots[i].transform);
+                    inventory.isFull[i] = true;
                     break;
                 }
             }

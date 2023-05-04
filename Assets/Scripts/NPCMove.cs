@@ -13,13 +13,14 @@ public class NPCMove : MonoBehaviour
 {
     private NavMeshAgent _agent;
     private Vector3 _target;
-    private Random _rnd = new ();
-    private List<Vector3> movePoints;
+    private Random rnd1 = new ();
+    private Random rnd2 = new ();
+    //private List<Vector3> movePoints;
 
     // Start is called before the first frame update
     void Start()
     {
-        movePoints = new List<Vector3>(){ new Vector3(0, 0, 0), new Vector3(1, 2, 0), new Vector3(4, 5, 0), new Vector3(8, 2, 0), new Vector3(3, 0, 0)};
+        //movePoints = new List<Vector3>(){ new Vector3(0, 0, 0), new Vector3(1, 2, 0), new Vector3(4, 5, 0), new Vector3(8, 2, 0), new Vector3(3, 0, 0)};
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         _agent.updateUpAxis = false;
@@ -37,12 +38,12 @@ public class NPCMove : MonoBehaviour
 
     void SetTargetPosition()
     {
-        var index = _rnd.Next(0, movePoints.Count);
-        _target = movePoints[index];
+        var (x, y) = (rnd1.Next(-95, 113), rnd2.Next(0, 100));
+        _target = new Vector3(x, y, 0);
     }
 
     void SetAgentPosition()
     {
-        _agent.SetDestination(new Vector3(_target.x, _target.y, 0));
+        _agent.SetDestination(_target);
     }
 }
