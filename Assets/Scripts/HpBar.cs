@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
     public int MaxHealth;
-    public int CurrentHeath;
+    public float CurrentHeath;
     public float AnimationSpeed = 8f;
 
     public RectTransform greenBar;
@@ -23,29 +23,18 @@ public class HpBar : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ChangeHealth(20);
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            ChangeHealth(-20);
-        }
-
     }
-    public void ChangeHealth(int value)
+
+    public void ChangeHealth(float value)
     {
         CurrentHeath = Math.Clamp(CurrentHeath + value, 0, MaxHealth);
         if (adjustBarWidthCoroutine != null)
-        {
             StopCoroutine(adjustBarWidthCoroutine);
-        }
 
         adjustBarWidthCoroutine = StartCoroutine(AdjustBarWidth(value));
     }
 
-    private IEnumerator AdjustBarWidth(int value)
+    private IEnumerator AdjustBarWidth(float value)
     {
         var suddenChangeBar = value >= 0 ? whiteBar : greenBar;
         var slowChangeBar = value >= 0 ? greenBar : whiteBar;

@@ -6,7 +6,6 @@ public class PressedButtonActivate : MonoBehaviour
 {
     private Inventory _inventory;
     public int Id;
-    private PlayerControl _player;
 
     // Start is called before the first frame update
     void Start()

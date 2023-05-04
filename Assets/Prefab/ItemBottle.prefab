@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2028896300856904889}
   - component: {fileID: 3925260150296627611}
   - component: {fileID: 9181880249640446479}
+  - component: {fileID: -6349780271313393307}
   m_Layer: 0
   m_Name: ItemBottle
   m_TagString: Untagged
@@ -90,3 +91,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Item: {fileID: 3520361919269119974, guid: fd011b5e6dee54d4591902f9ff12e3c9, type: 3}
+--- !u!114 &-6349780271313393307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4475878599859816513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f50f893e20a6a04fa717056201feaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -33,21 +33,4 @@ public class PickUp : MonoBehaviour
             }
         }
     }
-
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.CompareTag("Player") || other.CompareTag("Wall") || other.CompareTag("NPC"))
-    //    {
-    //        for (int j = 0; j < _inventory.slots.Length; j++)
-    //        {
-    //            if (!_inventory.isFull[j])
-    //            {
-    //                Destroy(gameObject);
-    //                Instantiate(SlotButton, _inventory.slots[j].transform);
-    //                _inventory.isFull[j] = true;
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
 }
