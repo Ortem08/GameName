@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CasketScript : MonoBehaviour
 {
     public Sprite CasketImage;
+    private GameObject currentChest;
     private Vector3 startPosition;
     private Vector3 direction;
     private Vector3 spawnPoint;
@@ -18,11 +20,11 @@ public class CasketScript : MonoBehaviour
         direction = player.GetComponent<NavMeshAgent>().destination - startPosition;
         spawnPoint = startPosition + direction.normalized * 3;
 
-        var newObj = new GameObject();
-        newObj.AddComponent<SpriteRenderer>();
-        newObj.GetComponent<SpriteRenderer>().sprite = CasketImage;
-        newObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
-        newObj.transform.position = spawnPoint;
+        currentChest = new GameObject();
+        currentChest.AddComponent<SpriteRenderer>();
+        currentChest.GetComponent<SpriteRenderer>().sprite = CasketImage;
+        currentChest.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        currentChest.transform.position = spawnPoint;
 
         npcs = GameObject.FindGameObjectsWithTag("NPC");
     }
@@ -34,7 +36,11 @@ public class CasketScript : MonoBehaviour
         {
             var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
             if (distance < 3)
+            {
                 MakeDamage(bro, distance);
+                //Destroy(gameObject);
+                //Destroy(currentChest);
+            }
         }
     }
 
@@ -42,5 +48,11 @@ public class CasketScript : MonoBehaviour
     {
         var abc = npc.GetComponentInChildren<HpBar>();
         abc.ChangeHealth(-(1 / (distance * 10)));
+        StartCoroutine(WaitFor(5));
+    }
+
+    private IEnumerator WaitFor(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }

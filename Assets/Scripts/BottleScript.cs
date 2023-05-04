@@ -17,21 +17,32 @@ public class BottleScript : MonoBehaviour
     {
         
         StartCoroutine(WaitForKeyPress(KeyCode.Mouse1));
-        bottle = GameObject.FindGameObjectWithTag("Used");
         npcs = GameObject.FindGameObjectsWithTag("NPC");
     }
 
     void Update()
     {
         if (buttonPressed)
-            foreach (var bro in npcs)
+        {
+            StartCoroutine(WaitFor(7));
+            StartCoroutine(LookAround());
+
+            //Destroy(gameObject);
+            //Destroy(bottle);
+        }
+    }
+
+    private IEnumerator LookAround()
+    {
+        foreach (var bro in npcs)
+        {
+            var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
+            if (distance < 3)
             {
-                var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
-                if (distance < 3)
-                {
-                    SlowDown(bro);
-                }
+                SlowDown(bro);
             }
+            yield return null;
+        }
     }
 
     private void SlowDown(GameObject npc)
@@ -40,6 +51,7 @@ public class BottleScript : MonoBehaviour
         var rnd = new System.Random();
         var abc = npc.GetComponent<NavMeshAgent>();
         abc.speed = 0.5f;
+
         if (rnd.NextDouble() % 157 < 1e-4)
         {
             Debug.Log("shock");
@@ -48,16 +60,18 @@ public class BottleScript : MonoBehaviour
             StartCoroutine(WaitFor(10));
             abc.speed = 3.5f;
         }
+
         if(!wasShocked)
         {
             Debug.Log("not shock");
             StartCoroutine(WaitFor(10));
+            abc.speed = 3.5f;
         }
     }
 
     private IEnumerator WaitFor(int seconds)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         Debug.Log("done");
     }
 
@@ -70,11 +84,11 @@ public class BottleScript : MonoBehaviour
         spawnPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         spawnPoint.z = 0;
 
-        var newObj = new GameObject();
-        newObj.AddComponent<SpriteRenderer>();
-        newObj.GetComponent<SpriteRenderer>().sprite = BottleImage;
-        newObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
-        newObj.transform.position = spawnPoint;
+        bottle = new GameObject();
+        bottle.AddComponent<SpriteRenderer>();
+        bottle.GetComponent<SpriteRenderer>().sprite = BottleImage;
+        bottle.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        bottle.transform.position = spawnPoint;
         buttonPressed = true;
     }
 }

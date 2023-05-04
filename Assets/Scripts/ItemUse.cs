@@ -35,7 +35,7 @@ public class ItemUse : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W) && inventory.isFull[1])
         {
-            var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
+            var item = secondSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[1] = false;
             var gameObj = new GameObject();
 
@@ -46,7 +46,7 @@ public class ItemUse : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && inventory.isFull[2])
         {
-            var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
+            var item = thirdSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[2] = false;
             var gameObj = new GameObject();
 
@@ -68,7 +68,6 @@ public class ItemUse : MonoBehaviour
         {
             gameObj.AddComponent<BottleScript>();
             gameObj.GetComponent<BottleScript>().BottleImage = item.sprite;
-            gameObj.tag = "Used";
         }
 
         //if (item.name.Contains("Apple"))
