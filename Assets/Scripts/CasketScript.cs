@@ -47,7 +47,7 @@ public class CasketScript : MonoBehaviour
     private void MakeDamage(GameObject npc, float distance)
     {
         var abc = npc.GetComponentInChildren<HpBar>();
-        abc.ChangeHealth(-(1 / (distance * 10)));
+        abc.ChangeHealth(-(1 / (distance)));
         StartCoroutine(WaitFor(5));
     }
 
