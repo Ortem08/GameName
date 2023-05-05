@@ -24,7 +24,7 @@ public class BottleScript : MonoBehaviour
     {
         if (buttonPressed)
         {
-            StartCoroutine(WaitFor(7));
+            //StartCoroutine(WaitFor(7));
             StartCoroutine(LookAround());
 
             //Destroy(gameObject);
@@ -51,21 +51,21 @@ public class BottleScript : MonoBehaviour
         var rnd = new System.Random();
         var abc = npc.GetComponent<NavMeshAgent>();
         abc.speed = 0.5f;
-
-        if (rnd.NextDouble() % 157 < 1e-4)
-        {
-            Debug.Log("shock");
-            wasShocked = true;
-            abc.speed = 0;
-            StartCoroutine(WaitFor(10));
-            abc.speed = 3.5f;
-        }
+        Debug.Log("npcdofk");
+        //if (rnd.NextDouble() % 157 < 1e-4)
+        //{
+        //    Debug.Log("shock");
+        //    wasShocked = true;
+        //    abc.speed = 0;
+        //    StartCoroutine(WaitFor(10));
+        //    abc.speed = 3.5f;
+        //}
 
         if(!wasShocked)
         {
             Debug.Log("not shock");
             StartCoroutine(WaitFor(10));
-            abc.speed = 3.5f;
+            //abc.speed = 3.5f;
         }
     }
 
