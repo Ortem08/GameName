@@ -70,14 +70,12 @@ public class ItemUse : MonoBehaviour
             gameObj.AddComponent<BottleScript>();
             gameObj.GetComponent<BottleScript>().BottleImage = item.sprite;
             gameObj.GetComponent<BottleScript>().BottleScriptHolder = gameObj;
-            Debug.Log(gameObj);
-            Debug.Log(gameObj.GetComponent<BottleScript>().BottleScriptHolder);
         }
 
-        //if (item.name.Contains("Apple"))
-        //{
-        //    gameObj.AddComponent<CasketScript>();
-        //    gameObj.GetComponent<CasketScript>().CasketImage = item.sprite;
-        //}
+        if (item.name.Contains("Dummy"))
+        {
+            gameObj.AddComponent<MaskScript>();
+            gameObj.GetComponent<MaskScript>().MaskImage = item.sprite;
+        }
     }
 }

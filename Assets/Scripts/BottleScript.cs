@@ -60,7 +60,7 @@ public class BottleScript : MonoBehaviour
         Destroy(bottle);
         Destroy(BottleScriptHolder);
         itemIsDestroyed = true;
-        LookAround();
+        UnfreezeNPCs();
     }
 
     private IEnumerator LookAround()
@@ -72,12 +72,26 @@ public class BottleScript : MonoBehaviour
             {
                 SlowDown(npc);
             }
-            else if (npc.GetComponent<NavMeshAgent>().speed == 0.5f)
+
+            //if (itemIsDestroyed)
+            //{
+            //    npc.GetComponent<NavMeshAgent>().speed = 3.5f;
+            //}
+
+            yield return null;
+        }
+    }
+
+    private void UnfreezeNPCs()
+    {
+        foreach (var npc in npcs)
+        {
+            var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
+            if (distance <= 3 && itemIsDestroyed)
             {
                 npc.GetComponent<NavMeshAgent>().speed = 3.5f;
             }
 
-            yield return null;
         }
     }
 
