@@ -2,26 +2,49 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Timers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public class BottleScript : MonoBehaviour
 {
     public Sprite BottleImage;
     private GameObject bottle;
+    public GameObject BottleScriptHolder;
+
     private bool buttonPressed;
     private Vector3 spawnPoint;
     private GameObject[] npcs;
-    
+    private bool flag;
+    private bool itemIsDestroyed;
+
+    private static System.Timers.Timer aTimer;
+
     void Start()
     {
-        
+        flag = true;
+        itemIsDestroyed = false;
+
+        aTimer = new System.Timers.Timer();
+        aTimer.Interval = 2000;
+        aTimer.AutoReset = false;
+        aTimer.Enabled = true;
+
         StartCoroutine(WaitForKeyPress(KeyCode.Mouse1));
         npcs = GameObject.FindGameObjectsWithTag("NPC");
     }
 
     void Update()
     {
+
+        if (aTimer.Enabled == false && flag == true)
+        {
+            flag = false;
+            KillBottleScript();
+        }
+
         if (buttonPressed)
         {
             //StartCoroutine(WaitFor(7));
@@ -32,15 +55,28 @@ public class BottleScript : MonoBehaviour
         }
     }
 
+    private void KillBottleScript()
+    {
+        Destroy(bottle);
+        Destroy(BottleScriptHolder);
+        itemIsDestroyed = true;
+        LookAround();
+    }
+
     private IEnumerator LookAround()
     {
-        foreach (var bro in npcs)
+        foreach (var npc in npcs)
         {
-            var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
-            if (distance < 3)
+            var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
+            if (distance < 3 && !itemIsDestroyed)
             {
-                SlowDown(bro);
+                SlowDown(npc);
             }
+            else if (npc.GetComponent<NavMeshAgent>().speed == 0.5f)
+            {
+                npc.GetComponent<NavMeshAgent>().speed = 3.5f;
+            }
+
             yield return null;
         }
     }
@@ -51,7 +87,7 @@ public class BottleScript : MonoBehaviour
         var rnd = new System.Random();
         var abc = npc.GetComponent<NavMeshAgent>();
         abc.speed = 0.5f;
-        Debug.Log("npcdofk");
+        //Debug.Log("npcdofk");
         //if (rnd.NextDouble() % 157 < 1e-4)
         //{
         //    Debug.Log("shock");
@@ -63,7 +99,7 @@ public class BottleScript : MonoBehaviour
 
         if(!wasShocked)
         {
-            Debug.Log("not shock");
+            //Debug.Log("not shock");
             StartCoroutine(WaitFor(10));
             //abc.speed = 3.5f;
         }
@@ -72,7 +108,7 @@ public class BottleScript : MonoBehaviour
     private IEnumerator WaitFor(int seconds)
     {
         yield return new WaitForSeconds(10);
-        Debug.Log("done");
+        //Debug.Log("done");
     }
 
 

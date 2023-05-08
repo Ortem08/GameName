@@ -1,16 +1,20 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class CasketScript : MonoBehaviour
 {
     public Sprite CasketImage;
+    public GameObject CasketScriptHolder;
     private GameObject currentChest;
+
     private Vector3 startPosition;
     private Vector3 direction;
     private Vector3 spawnPoint;
-
     private GameObject[] npcs;
+
+    private static System.Timers.Timer aTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +31,21 @@ public class CasketScript : MonoBehaviour
         currentChest.transform.position = spawnPoint;
 
         npcs = GameObject.FindGameObjectsWithTag("NPC");
+
+        aTimer = new System.Timers.Timer();
+        aTimer.Interval = 2000;
+        aTimer.AutoReset = false;
+        aTimer.Enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (aTimer.Enabled == false)
+        {
+            KillCasketScript();
+        }
+
         foreach (var bro in npcs)
         {
             var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
@@ -42,6 +56,12 @@ public class CasketScript : MonoBehaviour
                 //Destroy(currentChest);
             }
         }
+    }
+
+    private void KillCasketScript()
+    {
+        Destroy(currentChest);
+        Destroy(CasketScriptHolder);
     }
 
     private void MakeDamage(GameObject npc, float distance)
