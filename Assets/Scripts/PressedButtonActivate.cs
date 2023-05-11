@@ -10,19 +10,22 @@ public class PressedButtonActivate : MonoBehaviour
 {
     private Inventory _inventory;
     public int Id;
+    
     private List<string> tutorialMessages;
     private int currentTutorMessageIndex;
 
-    // Start is called before the first frame update
     void Start()
     {
         _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        tutorialMessages = new List<string>() { "Для передвижения используйте левую кнопку мыши", 
+        tutorialMessages = new List<string>() 
+        { 
+            "Для передвижения используйте левую кнопку мыши", 
             "Чтобы подабрать предмет, подойдите к нему достаточно близко и нажмите кнопку F", 
             "Чтобы использовать предметы в первой, второй и третьей ячейках нажимайте клавиши Q, W, E соответственно", 
             "Для некоторых предметов, после их использования, вам понадобится указать область действия с помощью правой кнопки мыши", 
             "Для того, чтобы пройти обучающий уровень, используйте знания, полученные в этом обучении и нанесите урон одному из нпс и уменьшите его хп до нуля", 
-            "" };
+            ""
+        };
         currentTutorMessageIndex = 0;
     }
     
@@ -46,6 +49,7 @@ public class PressedButtonActivate : MonoBehaviour
         }
         if (currentTutorMessageIndex >= tutorialMessages.Count)
         {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().TutorialFinished = true;
             Destroy(textBox);
         }
     }
