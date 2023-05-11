@@ -6,16 +6,14 @@ public class NewBehaviourScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject obj;
-    private Rigidbody2D rigidbody2D;
-    private Collider2D collider2D;
+    private Rigidbody2D finiRigidbody;
     private GameObject player;
     private Collider2D playerCollider;
 
     void Start()
     {
         obj = GameObject.FindGameObjectWithTag("Finish");
-        rigidbody2D = obj.GetComponent<Rigidbody2D>();
-        collider2D = obj.GetComponent <Collider2D>();
+        finiRigidbody = obj.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCollider = player.GetComponent<Collider2D>();
         Debug.Log(obj.name);
@@ -24,7 +22,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rigidbody2D.IsTouching(playerCollider) && CheckNPCsHealth())
+        if (finiRigidbody.IsTouching(playerCollider) && CheckNPCsHealth())
         {
             Debug.Log("Close Game");
             Application.Quit();

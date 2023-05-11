@@ -6,7 +6,6 @@ using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 
 public class BottleScript : MonoBehaviour
 {
