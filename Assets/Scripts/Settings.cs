@@ -24,18 +24,9 @@ public class Settings : MonoBehaviour
     //    dropdown.AddOptions(resolutions);
     //}
 
-    public void FullScreenToggle()
-    {
-        Screen.fullScreen = !Screen.fullScreen;
-    }
+    public void FullScreenToggle() => Screen.fullScreen = !Screen.fullScreen;
 
-    public void AudioVolume(float sliderValue)
-    {
-        AM.SetFloat("MasterVolume", sliderValue);
-    }
+    public void AudioVolume(float sliderValue) => AM.SetFloat("MasterVolume", sliderValue);
 
-    public void SetQuality(int q)
-    {
-        QualitySettings.SetQualityLevel(q);
-    }
+    public void SetQuality(int q) => QualitySettings.SetQualityLevel(q);
 }

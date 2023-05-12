@@ -15,18 +15,14 @@ public class NPCMove : MonoBehaviour
     private Vector3 _target;
     private Random rnd1 = new ();
     private Random rnd2 = new ();
-    //private List<Vector3> movePoints;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //movePoints = new List<Vector3>(){ new Vector3(0, 0, 0), new Vector3(1, 2, 0), new Vector3(4, 5, 0), new Vector3(8, 2, 0), new Vector3(3, 0, 0)};
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         _agent.updateUpAxis = false;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (_agent.remainingDistance == 0)

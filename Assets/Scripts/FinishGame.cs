@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     private GameObject obj;
     private Rigidbody2D finiRigidbody;
     private GameObject player;
@@ -16,16 +15,15 @@ public class NewBehaviourScript : MonoBehaviour
         finiRigidbody = obj.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCollider = player.GetComponent<Collider2D>();
-        Debug.Log(obj.name);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (finiRigidbody.IsTouching(playerCollider) && CheckNPCsHealth())
         {
             Debug.Log("Close Game");
-            Application.Quit();
+            //LevelController.Instance.IsEndGame();
+            //Application.Quit();
         }
     }
 
@@ -33,12 +31,14 @@ public class NewBehaviourScript : MonoBehaviour
     {
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         foreach (var npc in npcs)
-        {
             if (npc.GetComponentInChildren<HpBar>().CurrentHeath < 5)
-            {
                 return true;
-            }
-        }
+
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        LevelController.Instance.IsEndGame();
     }
 }

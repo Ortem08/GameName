@@ -42,17 +42,17 @@ public class PlayerControl : MonoBehaviour
     {
         var mouse = Input.mousePosition;
 
-        var button = GameObject.FindGameObjectWithTag("TutorialMessage");
-        tutorailButton = false;
-        if (button is not null)
-        {
-            var buttCoord = button.GetComponent<Transform>().position;
-            var buttSize = button.GetComponent<RectTransform>().rect;
-            tutorailButton = mouse.x < buttCoord.x + buttSize.width / 2 
-                             && mouse.x > buttCoord.x - buttSize.width / 2
-                             && mouse.y < buttCoord.y + buttSize.height / 2 
-                             && mouse.y > buttCoord.y - buttSize.height / 2;
-        }
+        //var button = GameObject.FindGameObjectWithTag("TutorialMessage");
+        //tutorailButton = false;
+        //if (button is not null)
+        //{
+        //    var buttCoord = button.GetComponent<Transform>().position;
+        //    var buttSize = button.GetComponent<RectTransform>().rect;
+        //    tutorailButton = mouse.x < buttCoord.x + buttSize.width / 2 
+        //                     && mouse.x > buttCoord.x - buttSize.width / 2
+        //                     && mouse.y < buttCoord.y + buttSize.height / 2 
+        //                     && mouse.y > buttCoord.y - buttSize.height / 2;
+        //}
 
         if (Input.GetMouseButtonDown(0))
         {

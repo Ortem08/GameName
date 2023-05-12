@@ -16,7 +16,6 @@ public class CasketScript : MonoBehaviour
 
     private static System.Timers.Timer aTimer;
 
-    // Start is called before the first frame update
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
@@ -38,7 +37,6 @@ public class CasketScript : MonoBehaviour
         aTimer.Enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (aTimer.Enabled == false)

@@ -21,10 +21,6 @@ public class HpBar : MonoBehaviour
         fullWidth = greenBar.rect.width;
     }
 
-    private void Update()
-    {
-    }
-
     public void ChangeHealth(float value)
     {
         CurrentHeath = Math.Clamp(CurrentHeath + value, 0, MaxHealth);

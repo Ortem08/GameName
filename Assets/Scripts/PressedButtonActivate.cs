@@ -41,12 +41,12 @@ public class PressedButtonActivate : MonoBehaviour
         var textBox = GameObject.FindGameObjectWithTag("TutorialMessage");
         var buttonText = textBox.GetComponentInChildren<Button>();
 
-        var buttCoord = buttonText.GetComponent<Transform>().position;
-        Debug.Log((buttCoord, Input.mousePosition));
-        var buttSize = buttonText.GetComponent<RectTransform>().rect;
-        var mouse = Input.mousePosition;
-        IsTutorialButton = mouse.x < buttCoord.x + buttSize.width / 2 && mouse.x > buttCoord.x - buttSize.width / 2
-            && mouse.y < buttCoord.y + buttSize.height / 2 && mouse.y > buttCoord.y - buttSize.height / 2;
+        //var buttCoord = buttonText.GetComponent<Transform>().position;
+        //Debug.Log((buttCoord, Input.mousePosition));
+        //var buttSize = buttonText.GetComponent<RectTransform>().rect;
+        //var mouse = Input.mousePosition;
+        //IsTutorialButton = mouse.x < buttCoord.x + buttSize.width / 2 && mouse.x > buttCoord.x - buttSize.width / 2
+        //    && mouse.y < buttCoord.y + buttSize.height / 2 && mouse.y > buttCoord.y - buttSize.height / 2;
 
         var text = textBox.GetComponentInChildren<TextMeshProUGUI>();
         text.text = tutorialMessages[currentTutorMessageIndex];

@@ -16,14 +16,12 @@ public class CameraScript : MonoBehaviour
     [SerializeField] private float topLimit;
     [SerializeField] private float bottomLimit;
 
-    // Start is called before the first frame update
     void Start()
     {
         offset = new Vector2(offset.x, offset.y);
         FindPlayer(isLeft);
     }
 
-    // Update is called once per frame
     void Update()
     {
         int currentX = Mathf.RoundToInt(player.position.x);
