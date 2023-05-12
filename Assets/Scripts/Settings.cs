@@ -28,5 +28,8 @@ public class Settings : MonoBehaviour
 
     public void AudioVolume(float sliderValue) => AM.SetFloat("MasterVolume", sliderValue);
 
-    public void SetQuality(int q) => QualitySettings.SetQualityLevel(q);
+    public void SetQuality(int q)
+    {
+        QualitySettings.SetQualityLevel(q);
+    }
 }

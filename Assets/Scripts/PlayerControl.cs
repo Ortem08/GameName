@@ -35,6 +35,7 @@ public class PlayerControl : MonoBehaviour
     
     private void Update()
     {
+        Debug.Log(QualitySettings.GetQualityLevel());
         SetTargetPosition();
     }
 
