@@ -10,7 +10,7 @@ public class PressedButtonActivate : MonoBehaviour
 {
     private Inventory _inventory;
     public int Id;
-    
+    public bool IsTutorialButton;
     private List<string> tutorialMessages;
     private int currentTutorMessageIndex;
 
@@ -40,16 +40,24 @@ public class PressedButtonActivate : MonoBehaviour
     {
         var textBox = GameObject.FindGameObjectWithTag("TutorialMessage");
         var buttonText = textBox.GetComponentInChildren<Button>();
+
+        var buttCoord = buttonText.GetComponent<Transform>().position;
+        Debug.Log((buttCoord, Input.mousePosition));
+        var buttSize = buttonText.GetComponent<RectTransform>().rect;
+        var mouse = Input.mousePosition;
+        IsTutorialButton = mouse.x < buttCoord.x + buttSize.width / 2 && mouse.x > buttCoord.x - buttSize.width / 2
+            && mouse.y < buttCoord.y + buttSize.height / 2 && mouse.y > buttCoord.y - buttSize.height / 2;
+
         var text = textBox.GetComponentInChildren<TextMeshProUGUI>();
         text.text = tutorialMessages[currentTutorMessageIndex];
         currentTutorMessageIndex++;
+
         if (currentTutorMessageIndex == tutorialMessages.Count - 1)
-        {
             buttonText.GetComponentInChildren<TextMeshProUGUI>().text = "Закрыть";
-        }
+
         if (currentTutorMessageIndex >= tutorialMessages.Count)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().TutorialFinished = true;
+            IsTutorialButton = false;
             Destroy(textBox);
         }
     }

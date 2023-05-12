@@ -23,16 +23,16 @@ public class PlayerControl : MonoBehaviour
     
     private Vector3 startPosition;
     private Vector3 direction;
-    
-    // Start is called before the first frame update
+
+    private bool tutorailButton;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
         SetTargetPosition();
@@ -42,12 +42,24 @@ public class PlayerControl : MonoBehaviour
     {
         var mouse = Input.mousePosition;
 
+        var button = GameObject.FindGameObjectWithTag("TutorialMessage");
+        tutorailButton = false;
+        if (button is not null)
+        {
+            var buttCoord = button.GetComponent<Transform>().position;
+            var buttSize = button.GetComponent<RectTransform>().rect;
+            tutorailButton = mouse.x < buttCoord.x + buttSize.width / 2 
+                             && mouse.x > buttCoord.x - buttSize.width / 2
+                             && mouse.y < buttCoord.y + buttSize.height / 2 
+                             && mouse.y > buttCoord.y - buttSize.height / 2;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             var camUpY = Camera.main.pixelHeight;
             isButton = (mouse.x > 20 && mouse.x < 325
                                     && mouse.y < camUpY - 15 && mouse.y > camUpY - 135)
-                || (!TutorialFinished && mouse.x > 810 && mouse.x < 972 && mouse.y < camUpY - 183 && mouse.y > camUpY - 214);
+                || tutorailButton;
 
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (!isButton)

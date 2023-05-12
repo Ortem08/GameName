@@ -12,6 +12,7 @@ public class MenuScript : MonoBehaviour
     public void ExitPressed()
     {
         Application.Quit();
+        Debug.Log("exit pressed");
     }
 }
 
