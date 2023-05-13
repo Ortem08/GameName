@@ -29,6 +29,8 @@ public class Settings : MonoBehaviour
             Volume.value = volVal;
             AM.SetFloat("MasterVolume", volVal);
         }
+        else
+            AM.SetFloat("MasterVolume", -10);
 
         if (PlayerPrefs.HasKey("QualityValue"))
         {
@@ -60,21 +62,14 @@ public class Settings : MonoBehaviour
 
     public void AudioVolume(float sliderValue) => AM.SetFloat("MasterVolume", sliderValue);
 
-    public void SetQuality(int q)
-    {
-        QualitySettings.SetQualityLevel(q);
-    }
+    public void SetQuality(int q) => QualitySettings.SetQualityLevel(q);
 
     public void SaveSettings()
     {
-        var intFullScreen = FullScreen ? 1 : 0;
-        
+        var intFullScreen = FullScreen.isOn ? 1 : 0;
+
         PlayerPrefs.SetInt("FullScreenValue", intFullScreen);
         PlayerPrefs.SetFloat("VolumeValue", Volume.value);
         PlayerPrefs.SetInt("QualityValue", Quality.value);
-
-        Debug.Log(intFullScreen);
-        Debug.Log(Volume.value);
-        Debug.Log(Quality.value);
     }
 }
