@@ -77,5 +77,10 @@ public class ItemUse : MonoBehaviour
             gameObj.AddComponent<MaskScript>();
             gameObj.GetComponent<MaskScript>().MaskImage = item.sprite;
         }
+
+        if (item.name.Contains("Virus"))
+        {
+            gameObj.AddComponent<FearVirusItem>();
+        }
     }
 }
