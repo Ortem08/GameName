@@ -57,9 +57,11 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             var camUpY = Camera.main.pixelHeight;
+            var camRightX = Camera.main.pixelWidth;
             isButton = (mouse.x > 20 && mouse.x < 325
                                     && mouse.y < camUpY - 15 && mouse.y > camUpY - 135)
-                || tutorailButton;
+                || (mouse.x > camRightX - 107 && mouse.x < camRightX - 9
+                                    && mouse.y < 88 && mouse.y > 58);
 
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (!isButton)

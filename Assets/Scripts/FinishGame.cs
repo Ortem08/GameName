@@ -8,6 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
     private Rigidbody2D finiRigidbody;
     private GameObject player;
     private Collider2D playerCollider;
+    //private Timer gameTime;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class NewBehaviourScript : MonoBehaviour
         finiRigidbody = obj.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCollider = player.GetComponent<Collider2D>();
+        //gameTime = GetComponent<Timer>().lifeTime;
     }
 
     void Update()
