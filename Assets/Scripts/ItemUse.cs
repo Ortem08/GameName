@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,12 +13,21 @@ public class ItemUse : MonoBehaviour
     private GameObject thirdSlot;
     private Inventory inventory;
 
+    private Dictionary<KeyCode, int> keyCodesPositions;
+
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         firstSlot = inventory.slots[0];
         secondSlot = inventory.slots[1];
         thirdSlot = inventory.slots[2];
+
+        keyCodesPositions = new()
+        {
+            [KeyCode.Q] = 0,
+            [KeyCode.W] = 1,
+            [KeyCode.E] = 2
+        };
     }
 
     void Update()
@@ -26,6 +36,12 @@ public class ItemUse : MonoBehaviour
         {
             var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[0] = false;
+
+            var onMouseItem = new GameObject();
+            onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+            onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            onMouseItem.AddComponent<FollowMouse>();
+            
             var gameObj = new GameObject();
 
             AddComponents(gameObj, item);

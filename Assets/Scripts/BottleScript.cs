@@ -38,7 +38,7 @@ public class BottleScript : MonoBehaviour
     void Update()
     {
 
-        if (aTimer.Enabled == false && flag == true)
+        if (!aTimer.Enabled && flag)
         {
             flag = false;
             KillBottleScript();
@@ -46,7 +46,6 @@ public class BottleScript : MonoBehaviour
 
         if (buttonPressed)
         {
-            //StartCoroutine(WaitFor(7));
             StartCoroutine(LookAround());
 
             //Destroy(gameObject);
@@ -87,10 +86,7 @@ public class BottleScript : MonoBehaviour
         {
             var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
             if (distance <= 3 && itemIsDestroyed)
-            {
                 npc.GetComponent<NavMeshAgent>().speed = 3.5f;
-            }
-
         }
     }
 
@@ -121,7 +117,6 @@ public class BottleScript : MonoBehaviour
     private IEnumerator WaitFor(int seconds)
     {
         yield return new WaitForSeconds(10);
-        //Debug.Log("done");
     }
 
 

@@ -14,8 +14,6 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] public bool TutorialFinished;
-    public float PickUpDistance = 3f;
-    public RaycastHit2D hit;
 
     private Vector3 target;
     private NavMeshAgent agent;
@@ -70,13 +68,5 @@ public class PlayerControl : MonoBehaviour
             startPosition = transform.position;
             direction = agent.destination - startPosition;
         }
-
-        DrawRay();
-    }
-
-    private void DrawRay()
-    {
-        Physics2D.queriesStartInColliders = false;
-        hit = Physics2D.Raycast(transform.position, direction, PickUpDistance);
     }
 }

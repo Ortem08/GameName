@@ -28,28 +28,21 @@ public class FearVirusItem : MonoBehaviour
             var spawnPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             spawnPoint.z = 0;
             var obj = new GameObject();
-            obj.AddComponent<CircleCollider2D>();
+            obj.AddComponent<CircleCollider2D>().isTrigger = true;
             obj.transform.position = spawnPoint;
             obj.AddComponent<Rigidbody2D>();
+
             var rigidbody = obj.GetComponent<Rigidbody2D>();
             rigidbody.isKinematic = true;
 
-            foreach (var npc in npcs)
-            {
-                var a = npc.transform.position;
-                var b = obj.transform.position;
-                Debug.Log(b.ToString() + "......" + a.ToString());
-
-                if (rigidbody.IsTouching(npc.GetComponent<CircleCollider2D>()))
-                {
-                    Debug.Log("Touch");
-                    if (npc != null)
-                    {
-                        SprayVirus(npc.GetComponent<NPCMove>(), npc);
-                    }
-                }
-            }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Touch");
+        Debug.Log(other.gameObject);
+        SprayVirus(other.gameObject.GetComponent<NPCMove>(), other.gameObject);
     }
 
     public void ActivateVirus()
