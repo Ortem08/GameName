@@ -16,20 +16,19 @@ public class BottleScript : MonoBehaviour
     private bool buttonPressed;
     private Vector3 spawnPoint;
     private GameObject[] npcs;
-    private bool flag;
+    public bool isTimerEnded;
     private bool itemIsDestroyed;
 
-    private static System.Timers.Timer aTimer;
+    public static System.Timers.Timer aTimer;
 
     void Start()
     {
-        flag = true;
+        isTimerEnded = false;
         itemIsDestroyed = false;
 
         aTimer = new System.Timers.Timer();
         aTimer.Interval = 2000;
         aTimer.AutoReset = false;
-        aTimer.Enabled = true;
 
         StartCoroutine(WaitForKeyPress(KeyCode.Mouse1));
         npcs = GameObject.FindGameObjectsWithTag("NPC");
@@ -37,12 +36,8 @@ public class BottleScript : MonoBehaviour
 
     void Update()
     {
-
-        if (!aTimer.Enabled && flag)
-        {
-            flag = false;
+        if (isTimerEnded)
             KillBottleScript();
-        }
 
         if (buttonPressed)
         {
@@ -92,8 +87,8 @@ public class BottleScript : MonoBehaviour
 
     private void SlowDown(GameObject npc)
     {
-        var wasShocked = false;
-        var rnd = new System.Random();
+        //var wasShocked = false;
+        //var rnd = new System.Random();
         var abc = npc.GetComponent<NavMeshAgent>();
         abc.speed = 0.5f;
         //Debug.Log("npcdofk");
@@ -106,19 +101,18 @@ public class BottleScript : MonoBehaviour
         //    abc.speed = 3.5f;
         //}
 
-        if(!wasShocked)
-        {
-            //Debug.Log("not shock");
-            StartCoroutine(WaitFor(10));
-            //abc.speed = 3.5f;
-        }
+        //if(!wasShocked)
+        //{
+        //    Debug.Log("not shock");
+        //    StartCoroutine(WaitFor(10));
+        //    abc.speed = 3.5f;
+        //}
     }
 
     private IEnumerator WaitFor(int seconds)
     {
         yield return new WaitForSeconds(10);
     }
-
 
     private IEnumerator WaitForKeyPress(KeyCode key)
     {
@@ -134,5 +128,17 @@ public class BottleScript : MonoBehaviour
         bottle.GetComponent<SpriteRenderer>().sortingOrder = 10;
         bottle.transform.position = spawnPoint;
         buttonPressed = true;
+
+        aTimer.Enabled = true;
+        StartCoroutine(CheckTimerEnded(aTimer));
+
+    }
+
+    private IEnumerator CheckTimerEnded(System.Timers.Timer timer)
+    {
+        while (timer.Enabled)
+            yield return null;
+
+        isTimerEnded = true;
     }
 }

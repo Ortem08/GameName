@@ -41,6 +41,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        LevelController.Instance.IsEndGame();
+        if (other.gameObject.tag is "Player")
+            LevelController.Instance.IsEndGame();
     }
 }

@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
 {
-    private Vector3 offset;
-
-    private void Start()
+    void Update()
     {
-        offset = transform.position - Input.mousePosition;
-    }
-
-    private void Update()
-    {
-        transform.position = Input.mousePosition;
+        Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(targetPosition.x, targetPosition.y, 0);
     }
 }
