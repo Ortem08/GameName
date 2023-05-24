@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUpController : MonoBehaviour
 {
-    public float PickUpRadius = 1f;
+    public float PickUpRadius = 1.5f;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))

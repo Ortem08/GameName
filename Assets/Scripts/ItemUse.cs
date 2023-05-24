@@ -36,10 +36,10 @@ public class ItemUse : MonoBehaviour
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                StartCoroutine(CheckForUsage(gameObj));
+                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
             }
-
-            Destroy(item.gameObject);
+            else 
+                Destroy(item.gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.W) && inventory.isFull[1])
@@ -47,15 +47,19 @@ public class ItemUse : MonoBehaviour
             var item = secondSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[1] = false;
 
-            var onMouseItem = new GameObject();
-            onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
-            onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
-            onMouseItem.AddComponent<FollowMouse>();
-
             var gameObj = new GameObject();
             AddComponents(gameObj, item);
 
-            Destroy(item.gameObject);
+            if (item.name.Contains("Bottle"))
+            {
+                var onMouseItem = new GameObject();
+                onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+                onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
+                onMouseItem.AddComponent<FollowMouse>();
+                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+            }
+            else
+                Destroy(item.gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && inventory.isFull[2])
@@ -63,15 +67,19 @@ public class ItemUse : MonoBehaviour
             var item = thirdSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[2] = false;
 
-            var onMouseItem = new GameObject();
-            onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
-            onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
-            onMouseItem.AddComponent<FollowMouse>();
-
             var gameObj = new GameObject();
             AddComponents(gameObj, item);
 
-            Destroy(item.gameObject);
+            if (item.name.Contains("Bottle"))
+            {
+                var onMouseItem = new GameObject();
+                onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+                onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
+                onMouseItem.AddComponent<FollowMouse>();
+                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+            }
+            else
+                Destroy(item.gameObject);
         }
     }
 
@@ -103,14 +111,18 @@ public class ItemUse : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckForUsage(GameObject item)
+    private IEnumerator CheckForUsage(GameObject item, GameObject onMouseItem, Image parenrtItem)
     {
-        while (!false)
-        {
-            Debug.Log(1);
+        var bottleScriptHolder = item.GetComponent<BottleScript>();
+        while (!bottleScriptHolder.isTimerEverEnabled)
             yield return null;
-        }
+        Destroy(onMouseItem);
 
-        Destroy(item);
+        while (!bottleScriptHolder.isTimerEnded)
+            yield return null;
+
+        Destroy(item.gameObject);
+        Destroy(parenrtItem);
+        bottleScriptHolder.KillBottleScript();
     }
 }

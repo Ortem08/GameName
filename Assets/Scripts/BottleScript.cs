@@ -17,13 +17,13 @@ public class BottleScript : MonoBehaviour
     private Vector3 spawnPoint;
     private GameObject[] npcs;
     public bool isTimerEnded;
+    public bool isTimerEverEnabled;
     private bool itemIsDestroyed;
 
     public static System.Timers.Timer aTimer;
 
     void Start()
     {
-        isTimerEnded = false;
         itemIsDestroyed = false;
 
         aTimer = new System.Timers.Timer();
@@ -36,8 +36,8 @@ public class BottleScript : MonoBehaviour
 
     void Update()
     {
-        if (isTimerEnded)
-            KillBottleScript();
+        //if (isTimerEnded)
+        //    KillBottleScript();
 
         if (buttonPressed)
         {
@@ -48,7 +48,7 @@ public class BottleScript : MonoBehaviour
         }
     }
 
-    private void KillBottleScript()
+    public void KillBottleScript()
     {
         Destroy(bottle);
         Destroy(BottleScriptHolder);
@@ -130,6 +130,7 @@ public class BottleScript : MonoBehaviour
         buttonPressed = true;
 
         aTimer.Enabled = true;
+        isTimerEverEnabled = true;
         StartCoroutine(CheckTimerEnded(aTimer));
 
     }
