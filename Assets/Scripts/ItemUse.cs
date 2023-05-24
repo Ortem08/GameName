@@ -122,7 +122,7 @@ public class ItemUse : MonoBehaviour
             yield return null;
 
         Destroy(item.gameObject);
-        Destroy(parenrtItem);
+        Destroy(parenrtItem.gameObject);
         bottleScriptHolder.KillBottleScript();
     }
 }
