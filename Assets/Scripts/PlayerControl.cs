@@ -2,33 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 public class PlayerControl : MonoBehaviour
 {
-    [SerializeField] public bool TutorialFinished;
-
     private Vector3 target;
     private NavMeshAgent agent;
     private bool isButton = true;
-    
-    private Vector3 startPosition;
-    private Vector3 direction;
 
-    private bool tutorailButton;
+    private MoveState moveState = MoveState.Idle;
+    private MoveDirection directionState = MoveDirection.Down;
+    private Animator animatorController;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        animatorController = GetComponent<Animator>();
     }
     
     private void Update()
@@ -54,6 +49,8 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            moveState = MoveState.Move;
+
             var camUpY = Camera.main.pixelHeight;
             var camRightX = Camera.main.pixelWidth;
             isButton = (mouse.x > 20 && mouse.x < 325
@@ -62,11 +59,38 @@ public class PlayerControl : MonoBehaviour
                                     && mouse.y < 88 && mouse.y > 58);
 
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
             if (!isButton)
+            {
                 agent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
 
-            startPosition = transform.position;
-            direction = agent.destination - startPosition;
+                if (Vector3.Angle(Vector3.up, agent.destination) > 90)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+                        transform.localScale.z);
+                    directionState = MoveDirection.Down;
+                    animatorController.Play("PlayerWalkDown");
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+                        transform.localScale.z);
+                    directionState = MoveDirection.Up;
+                    animatorController.Play("PlayerWalkUp");
+                }
+            }
         }
+    }
+
+    private enum MoveDirection
+    {
+        Up,
+        Down
+    }
+
+    private enum MoveState
+    {
+        Idle,
+        Move
     }
 }

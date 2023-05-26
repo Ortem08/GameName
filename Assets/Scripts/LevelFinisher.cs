@@ -15,7 +15,7 @@ public class LevelFinisher : MonoBehaviour
 
     }
     
-    void Update()
+    private void Update()
     {
         foreach (var npc in npcs)
             if (npc.GetComponentInChildren<HpBar>().CurrentHeath < 5)
