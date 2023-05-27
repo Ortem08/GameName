@@ -13,10 +13,13 @@ public class ItemUse : MonoBehaviour
     private GameObject secondSlot;
     private GameObject thirdSlot;
     private Inventory inventory;
+    private GameObject player;
+    public RuntimeAnimatorController BottleAnimationController;
 
     void Start()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        inventory = player.GetComponent<Inventory>();
         firstSlot = inventory.slots[0];
         secondSlot = inventory.slots[1];
         thirdSlot = inventory.slots[2];
@@ -97,6 +100,15 @@ public class ItemUse : MonoBehaviour
             gameObj.AddComponent<BottleScript>();
             gameObj.GetComponent<BottleScript>().BottleImage = item.sprite;
             gameObj.GetComponent<BottleScript>().BottleScriptHolder = gameObj;
+            gameObj.GetComponent<BottleScript>().player = player;
+            gameObj.GetComponent<BottleScript>().BottleAnimationController = BottleAnimationController;
+
+
+            //gameObj.AddComponent<SpriteRenderer>().sprite= item.sprite;
+            //gameObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            //gameObj.AddComponent<Animator>().runtimeAnimatorController = BottleAnimationController;
+            //gameObj.GetComponent<Transform>().position = player.GetComponent<Transform>().position;
+
         }
 
         if (item.name.Contains("Dummy"))
