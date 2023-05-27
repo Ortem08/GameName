@@ -28,7 +28,17 @@ public class PlayerControl : MonoBehaviour
     
     private void Update()
     {
-        SetTargetPosition();
+        if (Input.GetMouseButtonDown(0))
+            SetTargetPosition();
+        else if (agent.remainingDistance <= 0.1)
+        {
+            moveState = MoveState.Idle;
+            animatorController.Play("PlayerIdle");
+        }
+        else
+        {
+            SetAnimation();
+        }
     }
 
     private void SetTargetPosition()
@@ -47,45 +57,69 @@ public class PlayerControl : MonoBehaviour
         //                     && mouse.y > buttCoord.y - buttSize.height / 2;
         //}
 
-        if (Input.GetMouseButtonDown(0))
+        moveState = MoveState.Move;
+
+        var camUpY = Camera.main.pixelHeight;
+        var camRightX = Camera.main.pixelWidth;
+        isButton = (mouse.x > 20 && mouse.x < 325
+                                && mouse.y < camUpY - 15 && mouse.y > camUpY - 135)
+            || (mouse.x > camRightX - 107 && mouse.x < camRightX - 9
+                                && mouse.y < 88 && mouse.y > 58);
+
+        target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (!isButton)
         {
-            moveState = MoveState.Move;
+            agent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
 
-            var camUpY = Camera.main.pixelHeight;
-            var camRightX = Camera.main.pixelWidth;
-            isButton = (mouse.x > 20 && mouse.x < 325
-                                    && mouse.y < camUpY - 15 && mouse.y > camUpY - 135)
-                || (mouse.x > camRightX - 107 && mouse.x < camRightX - 9
-                                    && mouse.y < 88 && mouse.y > 58);
+            SetAnimation();
+        }
+    }
 
-            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    private void SetAnimation()
+    {
+        var angleVertical = Vector3.Angle(Vector3.up, agent.desiredVelocity.normalized);
+        var angleHorizontal = Vector3.Angle(Vector3.right, agent.desiredVelocity.normalized);
+        Debug.Log((angleHorizontal, angleVertical));
+        if (angleVertical <= 60)
+        {
+            //transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+            //    transform.localScale.z);
+            directionState = MoveDirection.Up;
+            animatorController.Play("PlayerWalkUp");
+        }
+        else if (angleVertical >= 120)
+        {
+            ////transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+            ////    transform.localScale.z);
 
-            if (!isButton)
-            {
-                agent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
+            directionState = MoveDirection.Down;
+            animatorController.Play("PlayerWalkDown");
+        }
+        else if (angleHorizontal <= 30)
+        {
+            //transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+            //    transform.localScale.z);
 
-                if (Vector3.Angle(Vector3.up, agent.destination) > 90)
-                {
-                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
-                        transform.localScale.z);
-                    directionState = MoveDirection.Down;
-                    animatorController.Play("PlayerWalkDown");
-                }
-                else
-                {
-                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
-                        transform.localScale.z);
-                    directionState = MoveDirection.Up;
-                    animatorController.Play("PlayerWalkUp");
-                }
-            }
+            directionState = MoveDirection.Right;
+            animatorController.Play("PlayerWalkRight");
+        }
+        else if (angleHorizontal > 150)
+        {
+            //transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+            //    transform.localScale.z);
+
+            directionState = MoveDirection.Left;
+            animatorController.Play("PlayerWalkLeft");
         }
     }
 
     private enum MoveDirection
     {
         Up,
-        Down
+        Down,
+        Right, 
+        Left
     }
 
     private enum MoveState
