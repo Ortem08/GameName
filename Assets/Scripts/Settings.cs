@@ -16,7 +16,6 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("start");
         if (PlayerPrefs.HasKey("FullScreenValue"))
         {
             var fsVal = Convert.ToBoolean(PlayerPrefs.GetInt("FullScreenValue"));

@@ -28,6 +28,7 @@ public class PlayerControl : MonoBehaviour
     
     private void Update()
     {
+        animatorController.speed = agent.speed / 3;
         if (Input.GetMouseButtonDown(0))
             SetTargetPosition();
         else if (agent.remainingDistance <= 0.1)
@@ -80,7 +81,7 @@ public class PlayerControl : MonoBehaviour
     {
         var angleVertical = Vector3.Angle(Vector3.up, agent.desiredVelocity.normalized);
         var angleHorizontal = Vector3.Angle(Vector3.right, agent.desiredVelocity.normalized);
-        Debug.Log((angleHorizontal, angleVertical));
+        
         if (angleVertical <= 60)
         {
             //transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
