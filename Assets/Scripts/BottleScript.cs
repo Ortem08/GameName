@@ -133,15 +133,15 @@ public class BottleScript : MonoBehaviour
         spawnPoint.z = 0;
 
         bottle = new GameObject();
-        bottle.AddComponent<SpriteRenderer>();
-        bottle.GetComponent<SpriteRenderer>().sprite = BottleImage;
-        bottle.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        var spriteRenderer = bottle.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = BottleImage;
+        spriteRenderer.sortingOrder = 10;
         bottle.AddComponent<Animator>().runtimeAnimatorController = BottleAnimationController;
         bottle.GetComponent<Transform>().position = player.GetComponent<Transform>().position;
         bottle.transform.position = player.transform.position;
-        bottle.AddComponent<BottleAnimationScript>();
-        bottle.GetComponent<BottleAnimationScript>().spawnpoint = spawnPoint;
-        bottle.GetComponent<BottleAnimationScript>().bottleScript = gameObject.GetComponent<BottleScript>();
+        var bottleAnimationScript = bottle.AddComponent<BottleAnimationScript>();
+       bottleAnimationScript.spawnpoint = spawnPoint;
+       bottleAnimationScript.bottleScript = gameObject.GetComponent<BottleScript>();
 
         buttonPressed = true;
     } 

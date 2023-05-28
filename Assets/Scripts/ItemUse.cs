@@ -39,7 +39,7 @@ public class ItemUse : MonoBehaviour
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
             }
             else 
                 Destroy(item.gameObject);
@@ -59,7 +59,7 @@ public class ItemUse : MonoBehaviour
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
             }
             else
                 Destroy(item.gameObject);
@@ -79,7 +79,7 @@ public class ItemUse : MonoBehaviour
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
             }
             else
                 Destroy(item.gameObject);
@@ -123,18 +123,18 @@ public class ItemUse : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckForUsage(GameObject item, GameObject onMouseItem, Image parenrtItem)
-    {
-        var bottleScriptHolder = item.GetComponent<BottleScript>();
-        while (!bottleScriptHolder.isTimerEverEnabled)
-            yield return null;
-        Destroy(onMouseItem);
+    //private IEnumerator CheckForUsage(GameObject item, GameObject onMouseItem, Image parenrtItem)
+    //{
+    //    var bottleScriptHolder = item.GetComponent<BottleScript>();
+    //    while (!bottleScriptHolder.isTimerEverEnabled)
+    //        yield return null;
+    //    Destroy(onMouseItem);
 
-        while (!bottleScriptHolder.isTimerEnded)
-            yield return null;
+    //    while (!bottleScriptHolder.isTimerEnded)
+    //        yield return null;
 
-        Destroy(item.gameObject);
-        Destroy(parenrtItem.gameObject);
-        bottleScriptHolder.KillBottleScript();
-    }
+    //    Destroy(item.gameObject);
+    //    Destroy(parenrtItem.gameObject);
+    //    bottleScriptHolder.KillBottleScript();
+    //}
 }
