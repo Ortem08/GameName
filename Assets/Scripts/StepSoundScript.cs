@@ -11,6 +11,7 @@ public class StepSoundScript : MonoBehaviour
     private void Start()
     {
         source = GetComponent<AudioSource>();
+        source.volume = 0.05f;
     }
     
     public void PlayStep()

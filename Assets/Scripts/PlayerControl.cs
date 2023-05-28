@@ -14,12 +14,15 @@ public class PlayerControl : MonoBehaviour
     private NavMeshAgent agent;
     private bool isButton = true;
 
+    public bool BlockedByAnotherScript;
+
     private MoveState moveState = MoveState.Idle;
     private MoveDirection directionState = MoveDirection.Down;
     private Animator animatorController;
 
     private void Start()
     {
+        BlockedByAnotherScript = false;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -69,7 +72,7 @@ public class PlayerControl : MonoBehaviour
 
         target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (!isButton)
+        if (!isButton && !BlockedByAnotherScript)
         {
             agent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
 

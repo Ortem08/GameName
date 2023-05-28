@@ -22,7 +22,6 @@ public class BottleAnimationScript : MonoBehaviour
         startPosition = transform.position;
         var soundClipSpin = Resources.Load<AudioClip>("spinSound");
         soundClipBottleBreak = Resources.Load<AudioClip>("bottleBreak" + random.Next(1,4));
-        Debug.Log(soundClipBottleBreak);
         var audioSource = gameObject.AddComponent<AudioSource>();
         //gameObject.GetComponent<AudioSource>().outputAudioMixerGroup = "Master";
         audioSource.clip = soundClipSpin;
