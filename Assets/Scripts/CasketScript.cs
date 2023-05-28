@@ -62,12 +62,13 @@ public class CasketScript : MonoBehaviour
             aTimer.Enabled = true;
             flag = false;
 
-            var casketSong = Resources.Load<AudioClip>("CascetSong" + random.Next(1, 8).ToString());
+            var casketSong = Resources.Load<AudioClip>("CascetSong" + random.Next(1, 8));
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.clip = casketSong;
-            audioSource.volume = 0.02f;
+            //audioSource.volume = 0.02f;
             audioSource.loop = false;
             audioSource.Play();
+            currentChest.AddComponent<AudioVolumeDistance>().source = audioSource;
         }
 
         if (!audioSource.isPlaying && prepareSoundIsDone)
@@ -92,10 +93,10 @@ public class CasketScript : MonoBehaviour
 
     private void MakePrepareSound()
     {
-        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + random.Next(1, 4).ToString());
+        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + random.Next(1, 4));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = casketPrepareSound;
-        audioSource.volume = 0.02f;
+        //audioSource.volume = 0.02f;
         audioSource.loop = false;
         audioSource.Play();
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
