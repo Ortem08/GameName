@@ -1,54 +1,52 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class CasketScript : MonoBehaviour
 {
     public Sprite CasketImage;
     public GameObject CasketScriptHolder;
-    
+
+    [SerializeField] public static float DamageDistance { get; private set; }
+
     private GameObject currentChest;
     private Vector3 startPosition;
     private Vector3 direction;
     private Vector3 spawnPoint;
     private GameObject[] npcs;
     private bool prepareSoundIsDone;
-    private System.Random random;
     private AudioSource audioSource;
     private GameObject player;
-    private bool flag;
+    private bool flag = true;
 
-    private static System.Timers.Timer aTimer;
+    private AudioMixer Mixer { get; set; }
 
-    void Start()
+    private void Start()
     {
-        flag = true;
         player = GameObject.FindGameObjectWithTag("Player");
         prepareSoundIsDone = false;
-        random = new System.Random();
 
         startPosition = player.transform.position;
         direction = player.GetComponent<NavMeshAgent>().destination - startPosition;
         spawnPoint = startPosition + direction.normalized * 3;
 
         currentChest = new GameObject();
-        currentChest.AddComponent<SpriteRenderer>();
-        currentChest.GetComponent<SpriteRenderer>().sprite = CasketImage;
-        currentChest.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        var chectSprite = currentChest.AddComponent<SpriteRenderer>();
+        chectSprite.sprite = CasketImage;
+        chectSprite.sortingOrder = -1;
         currentChest.transform.position = spawnPoint;
 
         npcs = GameObject.FindGameObjectsWithTag("NPC");
 
-        aTimer = new System.Timers.Timer();
-        aTimer.Interval = 10000;
-        aTimer.AutoReset = false;
-        aTimer.Enabled = false;
-
+        DamageDistance = 10f;
+        Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
         MakePrepareSound();
     }
 
-    void Update()
+    private void Update()
     {
         if (audioSource != null && !audioSource.isPlaying)
         {
@@ -59,16 +57,16 @@ public class CasketScript : MonoBehaviour
         if (prepareSoundIsDone && flag)
         {
             currentChest.GetComponent<SpriteRenderer>().sortingOrder = 10;
-            aTimer.Enabled = true;
             flag = false;
 
-            var casketSong = Resources.Load<AudioClip>("CascetSong" + random.Next(1, 8));
+            var casketSong = Resources.Load<AudioClip>("CascetSong" + Random.Range(1, 8));
             audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = casketSong;
+            audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+            //audioSource.clip = casketSong;
             //audioSource.volume = 0.02f;
-            audioSource.loop = false;
-            audioSource.Play();
-            currentChest.AddComponent<AudioVolumeDistance>().source = audioSource;
+            //audioSource.loop = false;
+            audioSource.PlayOneShot(casketSong);
+            currentChest.AddComponent<AudioVolumeDistance>().Source = audioSource;
         }
 
         if (!audioSource.isPlaying && prepareSoundIsDone)
@@ -81,7 +79,7 @@ public class CasketScript : MonoBehaviour
             foreach (var bro in npcs)
             {
                 var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
-                if (distance < 3)
+                if (distance < DamageDistance)
                 {
                     MakeDamage(bro, distance);
                     //Destroy(gameObject);
@@ -93,12 +91,13 @@ public class CasketScript : MonoBehaviour
 
     private void MakePrepareSound()
     {
-        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + random.Next(1, 4));
+        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + Random.Range(1, 4));
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = casketPrepareSound;
+        audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+        //audioSource.clip = casketPrepareSound;
         //audioSource.volume = 0.02f;
-        audioSource.loop = false;
-        audioSource.Play();
+        //audioSource.loop = false;
+        audioSource.PlayOneShot(casketPrepareSound);
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
     }
 

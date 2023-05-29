@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -9,17 +8,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.Experimental.AI;
 using static UnityEngine.GraphicsBuffer;
 using NavMeshSurface = Unity.AI.Navigation.NavMeshSurface;
-using Random = System.Random;
+//using Random = System.Random;
 
 public class NPCMove : MonoBehaviour
 {
     public uint NPCID;
-    private NavMeshAgent agent;
-    private Vector3 _target;
-    private Random rnd1 = new ();
-    private Random rnd2 = new ();
 
-    private Animator animatorController;
+    private NavMeshAgent agent;
+    private Vector3 target;
+    //private Random rnd1 = new ();
+    //private Random rnd2 = new ();
+
+    private Animator AnimatorController { get; set; }
 
     public bool IsInfected { get; private set; }
 
@@ -28,24 +28,22 @@ public class NPCMove : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        animatorController = GetComponent<Animator>();
+        AnimatorController = GetComponent<Animator>();
     }
     
     void Update()
     {
-        animatorController.speed = agent.speed / 3;
+        AnimatorController.speed = agent.speed / 3;
         if (agent.remainingDistance < 0.1)
-        {
             SetTargetPosition();
-        }
         SetAnimation();
     }
 
     void SetTargetPosition()
     {
-        var (x, y) = (rnd1.Next(-95, 113), rnd2.Next(0, 100));
-        _target = new Vector3(x, y, 0);
-        agent.SetDestination(_target);
+        var (x, y) = (Random.Range(-95, 113), Random.Range(0, 100));
+        target = new Vector3(x, y, 0);
+        agent.SetDestination(target);
     }
 
     // Function to apply damage to the NPC within a given radius
@@ -55,7 +53,7 @@ public class NPCMove : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            NPCMove npc = collider.GetComponent<NPCMove>();
+            var npc = collider.GetComponent<NPCMove>();
 
             if (npc != null && !npc.IsInfected)
             {
@@ -86,20 +84,12 @@ public class NPCMove : MonoBehaviour
         var angleHorizontal = Vector3.Angle(Vector3.right, agent.desiredVelocity.normalized);
 
         if (angleVertical <= 60)
-        {
-            animatorController.Play(NPCID + "NPCWalkUp");
-        }
+            AnimatorController.Play(NPCID + "NPCWalkUp");
         else if (angleVertical >= 120)
-        {
-            animatorController.Play(NPCID + "NPCWalkDown");
-        }
+            AnimatorController.Play(NPCID + "NPCWalkDown");
         else if (angleHorizontal <= 30)
-        {
-            animatorController.Play(NPCID + "NPCWalkRight");
-        }
+            AnimatorController.Play(NPCID + "NPCWalkRight");
         else if (angleHorizontal > 150)
-        {
-            animatorController.Play(NPCID + "NPCWalkLeft");
-        }
+            AnimatorController.Play(NPCID + "NPCWalkLeft");
     }
 }

@@ -12,7 +12,6 @@ public class LevelFinisher : MonoBehaviour
     private void Start()
     {
         npcs = GameObject.FindGameObjectsWithTag("NPC");
-
     }
     
     private void Update()

@@ -1,34 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BottleAnimationScript : MonoBehaviour
 {
+    public Vector3 Spawnpoint;
+    public BottleScript BottleScript;
 
-    public Vector3 spawnpoint;
-    public BottleScript bottleScript;
     private Vector3 startPosition;
     private Vector3 vector;
-    private System.Random random;
     private AudioClip soundClipBottleBreak;
 
-
+    private bool OncePlayed { get; set; }
+    private AudioMixer Mixer { get; set; }
 
     void Start()
     {
-        var random = new System.Random();
         startPosition = transform.position;
-        var soundClipSpin = Resources.Load<AudioClip>("spinSound");
-        soundClipBottleBreak = Resources.Load<AudioClip>("bottleBreak" + random.Next(1,4));
+        soundClipBottleBreak = Resources.Load<AudioClip>("bottleBreak" + Random.Range(1, 4));
+
         var audioSource = gameObject.AddComponent<AudioSource>();
-        //gameObject.GetComponent<AudioSource>().outputAudioMixerGroup = "Master";
-        audioSource.clip = soundClipSpin;
-        audioSource.volume = 0.02f;
+        Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
+        audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+        audioSource.clip = Resources.Load<AudioClip>("spinSound");
         audioSource.loop = true;
+        //audioSource.volume = 0.02f;
         audioSource.Play();
-        vector = (spawnpoint - startPosition).normalized;   
+        
+        vector = (Spawnpoint - startPosition).normalized;
     }
 
     void Update()
@@ -37,18 +41,32 @@ public class BottleAnimationScript : MonoBehaviour
         {
             var pos = transform.position;
             transform.position = new Vector3(pos.x + 0.001f * vector.x, pos.y + 0.001f * vector.y, 0);
-            if ((pos - spawnpoint).magnitude < 10e-2)
+            if (!OncePlayed && (pos - Spawnpoint).magnitude < 10e-2)
             {
-                bottleScript.animationIsDone = true;
+                OncePlayed = true;
+                BottleScript.IsAnimationFinished = true;
                 var soundSpeaker = new GameObject();
-                var breakSource = soundSpeaker.AddComponent<AudioSource>();
-                breakSource.clip = soundClipBottleBreak;
-                breakSource.volume = 0.02f;
-                breakSource.Play();
-                //Destroy(soundSpeaker);
+                var breakSoundSource = soundSpeaker.AddComponent<AudioSource>();
+                breakSoundSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+                //breakSoundSource.clip = soundClipBottleBreak;
+                //breakSoundSource.volume = 0.02f;
+                breakSoundSource.PlayOneShot(soundClipBottleBreak);
+                //StartCoroutine(DestroyAfterPlaying(soundSpeaker, gameObject));
                 Destroy(gameObject);
                 break;
             }
         }
     }
+
+    //private IEnumerator DestroyAfterPlaying(GameObject speaker, GameObject animationHandler)
+    //{
+    //    var Source = speaker.GetComponent<AudioSource>();
+    //    if (Source is null) yield break;
+
+    //    while (Source.isPlaying)
+    //        yield return null;
+
+    //    Destroy(animationHandler);
+    //    Destroy(speaker);
+    //}
 }

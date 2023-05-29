@@ -10,11 +10,11 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+    [SerializeField] public bool BlockedByAnotherScript { get; set; }
+
     private Vector3 target;
     private NavMeshAgent agent;
-    private bool isButton = true;
-
-    public bool BlockedByAnotherScript;
+    private bool isButton;
 
     private MoveState moveState = MoveState.Idle;
     private MoveDirection directionState = MoveDirection.Down;
@@ -22,7 +22,6 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
-        BlockedByAnotherScript = false;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;

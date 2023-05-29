@@ -8,47 +8,44 @@ using UnityEngine.UI;
 
 public class PressedButtonActivate : MonoBehaviour
 {
-    private Inventory _inventory;
     public int Id;
     public bool IsTutorialButton;
+
+    private Inventory inventory;
     private List<string> tutorialMessages;
     private int currentTutorMessageIndex;
 
+    private GameObject TextBox { get; set; }
+
     void Start()
     {
-        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         tutorialMessages = new List<string>() 
         { 
-            "Для передвижения используйте левую кнопку мыши", 
-            "Чтобы подабрать предмет, подойдите к нему достаточно близко и нажмите кнопку F", 
-            "Чтобы использовать предметы в первой, второй и третьей ячейках нажимайте клавиши Q, W, E соответственно", 
-            "Для некоторых предметов, после их использования, вам понадобится указать область действия с помощью правой кнопки мыши", 
+            "Движение - левая кнопка мыши", 
+            "Подобрать предмет - F", 
+            "Использовать предмет - Q, W, E соответственно", 
+            "Указать область действия - правая кнопка мыши", 
             "Для того, чтобы пройти обучающий уровень, используйте знания, полученные в этом обучении и нанесите урон одному из нпс и уменьшите его хп до нуля", 
             ""
         };
-        currentTutorMessageIndex = 0;
+        TextBox = GameObject.FindGameObjectWithTag("TutorialMessage");
+        TextBox.GetComponentInChildren<TextMeshProUGUI>().text = tutorialMessages[0];
+        currentTutorMessageIndex = 1;
     }
     
     public void DropItem()
     {
-        _inventory.isFull[Id] = false;
+        inventory.isFull[Id] = false;
         if (transform.childCount > 0)
             transform.GetChild(0).GetComponent<Spawn>().SpawnDroppedItem();
     }
 
     public void GiveNextTutorialMessage()
     {
-        var textBox = GameObject.FindGameObjectWithTag("TutorialMessage");
-        var buttonText = textBox.GetComponentInChildren<Button>();
+        var buttonText = TextBox.GetComponentInChildren<Button>();
 
-        //var buttCoord = buttonText.GetComponent<Transform>().position;
-        //Debug.Log((buttCoord, Input.mousePosition));
-        //var buttSize = buttonText.GetComponent<RectTransform>().rect;
-        //var mouse = Input.mousePosition;
-        //IsTutorialButton = mouse.x < buttCoord.x + buttSize.width / 2 && mouse.x > buttCoord.x - buttSize.width / 2
-        //    && mouse.y < buttCoord.y + buttSize.height / 2 && mouse.y > buttCoord.y - buttSize.height / 2;
-
-        var text = textBox.GetComponentInChildren<TextMeshProUGUI>();
+        var text = TextBox.GetComponentInChildren<TextMeshProUGUI>();
         text.text = tutorialMessages[currentTutorMessageIndex];
         currentTutorMessageIndex++;
 
@@ -58,7 +55,7 @@ public class PressedButtonActivate : MonoBehaviour
         if (currentTutorMessageIndex >= tutorialMessages.Count)
         {
             IsTutorialButton = false;
-            Destroy(textBox);
+            Destroy(TextBox);
         }
     }
 }

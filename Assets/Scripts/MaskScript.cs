@@ -10,6 +10,7 @@ public class MaskScript : MonoBehaviour
     private GameObject[] npcs;
     private Vector3 spawnPoint;
     public Sprite MaskImage;
+
     void Start()
     {
         npcs = GameObject.FindGameObjectsWithTag("NPC");
@@ -23,18 +24,6 @@ public class MaskScript : MonoBehaviour
                 RunAway(npc);
             }
         }
-    }
-
-    void Update()
-    {
-        //foreach (var npc in npcs)
-        //{
-        //    var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
-        //    if (distance < 5)
-        //    {
-        //        RunAway(npc);
-        //    }
-        //}
     }
 
     private void RunAway(GameObject npc)

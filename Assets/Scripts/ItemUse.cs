@@ -9,12 +9,13 @@ using UnityEngine.UI;
 
 public class ItemUse : MonoBehaviour
 {
+    public RuntimeAnimatorController BottleAnimationController;
+
     private GameObject firstSlot;
     private GameObject secondSlot;
     private GameObject thirdSlot;
     private Inventory inventory;
     private GameObject player;
-    public RuntimeAnimatorController BottleAnimationController;
 
     void Start()
     {
@@ -29,112 +30,99 @@ public class ItemUse : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && inventory.isFull[0])
         {
-            var item = firstSlot.transform.GetChild(0).GetComponent<Image>();
+            var objectImage = firstSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[0] = false;
-            var gameObj = new GameObject();
-            AddComponents(gameObj, item);
-            if (item.name.Contains("Bottle"))
+            var mainObject = new GameObject();
+            AddComponents(mainObject, objectImage);
+            if (objectImage.name.Contains("Bottle"))
             {
                 var onMouseItem = new GameObject();
-                onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+                onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                StartCoroutine(CheckForUsage(mainObject, onMouseItem, objectImage));
             }
             else 
-                Destroy(item.gameObject);
+                Destroy(objectImage.gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.W) && inventory.isFull[1])
         {
-            var item = secondSlot.transform.GetChild(0).GetComponent<Image>();
+            var objectImage = secondSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[1] = false;
 
-            var gameObj = new GameObject();
-            AddComponents(gameObj, item);
+            var mainObject = new GameObject();
+            AddComponents(mainObject, objectImage);
 
-            if (item.name.Contains("Bottle"))
+            if (objectImage.name.Contains("Bottle"))
             {
                 var onMouseItem = new GameObject();
-                onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+                onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                StartCoroutine(CheckForUsage(mainObject, onMouseItem, objectImage));
             }
             else
-                Destroy(item.gameObject);
+                Destroy(objectImage.gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && inventory.isFull[2])
         {
-            var item = thirdSlot.transform.GetChild(0).GetComponent<Image>();
+            var objectImage = thirdSlot.transform.GetChild(0).GetComponent<Image>();
             inventory.isFull[2] = false;
 
-            var gameObj = new GameObject();
-            AddComponents(gameObj, item);
+            var mainObject = new GameObject();
+            AddComponents(mainObject, objectImage);
 
-            if (item.name.Contains("Bottle"))
+            if (objectImage.name.Contains("Bottle"))
             {
                 var onMouseItem = new GameObject();
-                onMouseItem.AddComponent<SpriteRenderer>().sprite = item.sprite;
+                onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
                 onMouseItem.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 onMouseItem.AddComponent<FollowMouse>();
-                //StartCoroutine(CheckForUsage(gameObj, onMouseItem, item));
+                StartCoroutine(CheckForUsage(mainObject, onMouseItem, objectImage));
             }
             else
-                Destroy(item.gameObject);
+                Destroy(objectImage.gameObject);
         }
     }
 
-    private void AddComponents(GameObject gameObj, Image item)
+    private void AddComponents(GameObject gameObj, Image objectImage)
     {
-        if (item.name.Contains("Chest"))
+        if (objectImage.name.Contains("Chest"))
         {
-            gameObj.AddComponent<CasketScript>();
-            gameObj.GetComponent<CasketScript>().CasketImage = item.sprite;
-            gameObj.GetComponent<CasketScript>().CasketScriptHolder = gameObj;
+            var cascetScript = gameObj.AddComponent<CasketScript>();
+            cascetScript.CasketImage = objectImage.sprite;
+            cascetScript.CasketScriptHolder = gameObj;
         }
 
-        if (item.name.Contains("Bottle"))
+        if (objectImage.name.Contains("Bottle"))
         {
-            gameObj.AddComponent<BottleScript>();
-            gameObj.GetComponent<BottleScript>().BottleImage = item.sprite;
-            gameObj.GetComponent<BottleScript>().BottleScriptHolder = gameObj;
-            gameObj.GetComponent<BottleScript>().player = player;
-            gameObj.GetComponent<BottleScript>().BottleAnimationController = BottleAnimationController;
-
-
-            //gameObj.AddComponent<SpriteRenderer>().sprite= item.sprite;
-            //gameObj.GetComponent<SpriteRenderer>().sortingOrder = 10;
-            //gameObj.AddComponent<Animator>().runtimeAnimatorController = BottleAnimationController;
-            //gameObj.GetComponent<Transform>().position = player.GetComponent<Transform>().position;
-
+            var bottleScript = gameObj.AddComponent<BottleScript>();
+            bottleScript.BottleImage = objectImage.sprite;
+            bottleScript.BottleScriptHolder = gameObj;
+            bottleScript.Player = player;
+            bottleScript.BottleAnimationController = BottleAnimationController;
         }
 
-        if (item.name.Contains("Dummy"))
+        if (objectImage.name.Contains("Dummy"))
         {
-            gameObj.AddComponent<MaskScript>();
-            gameObj.GetComponent<MaskScript>().MaskImage = item.sprite;
+            var maskScript = gameObj.AddComponent<MaskScript>();
+            maskScript.MaskImage = objectImage.sprite;
         }
 
-        if (item.name.Contains("Virus"))
+        if (objectImage.name.Contains("Virus"))
         {
             gameObj.AddComponent<FearVirusItem>();
         }
     }
 
-    //private IEnumerator CheckForUsage(GameObject item, GameObject onMouseItem, Image parenrtItem)
-    //{
-    //    var bottleScriptHolder = item.GetComponent<BottleScript>();
-    //    while (!bottleScriptHolder.isTimerEverEnabled)
-    //        yield return null;
-    //    Destroy(onMouseItem);
-
-    //    while (!bottleScriptHolder.isTimerEnded)
-    //        yield return null;
-
-    //    Destroy(item.gameObject);
-    //    Destroy(parenrtItem.gameObject);
-    //    bottleScriptHolder.KillBottleScript();
-    //}
+    private IEnumerator CheckForUsage(GameObject mainItem, GameObject onMouseItem, Image objectImage)
+    {
+        var bottleScriptHolder = mainItem.GetComponent<BottleScript>();
+        while (!bottleScriptHolder.IsAnimationStarted)
+            yield return null;
+        Destroy(onMouseItem);
+        Destroy(objectImage.gameObject);
+    }
 }

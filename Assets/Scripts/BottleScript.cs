@@ -9,26 +9,29 @@ using UnityEngine.AI;
 
 public class BottleScript : MonoBehaviour
 {
-    public Sprite BottleImage;
-    private GameObject bottle;
-    public GameObject BottleScriptHolder;
-    public GameObject player;
-    public RuntimeAnimatorController BottleAnimationController;
-    public bool animationIsDone;
 
+    public static System.Timers.Timer aTimer;
+
+    [SerializeField] public Sprite BottleImage;
+    [SerializeField] public GameObject BottleScriptHolder;
+    [SerializeField] public GameObject Player;
+    [SerializeField] public RuntimeAnimatorController BottleAnimationController;
+
+    public bool IsAnimationFinished { get; set; }
+    public bool IsAnimationStarted { get; private set; }
+
+    private GameObject bottle;
     private bool buttonPressed;
     private Vector3 spawnPoint;
     private GameObject[] npcs;
     private bool coroutineStarts;
     private bool itemIsDestroyed;
 
-    public static System.Timers.Timer aTimer;
-
     void Start()
     {
         coroutineStarts = false;
         itemIsDestroyed = false;
-        animationIsDone = false;
+        IsAnimationFinished = false;
 
         aTimer = new System.Timers.Timer();
         aTimer.Interval = 2000;
@@ -47,7 +50,7 @@ public class BottleScript : MonoBehaviour
             KillBottleScript();
         }
 
-        if (buttonPressed && animationIsDone)
+        if (buttonPressed && IsAnimationFinished)
         {
             coroutineStarts = true;
             aTimer.Enabled = true;
@@ -137,11 +140,11 @@ public class BottleScript : MonoBehaviour
         spriteRenderer.sprite = BottleImage;
         spriteRenderer.sortingOrder = 10;
         bottle.AddComponent<Animator>().runtimeAnimatorController = BottleAnimationController;
-        bottle.GetComponent<Transform>().position = player.GetComponent<Transform>().position;
-        bottle.transform.position = player.transform.position;
+        bottle.transform.position = Player.transform.position;
         var bottleAnimationScript = bottle.AddComponent<BottleAnimationScript>();
-       bottleAnimationScript.spawnpoint = spawnPoint;
-       bottleAnimationScript.bottleScript = gameObject.GetComponent<BottleScript>();
+        bottleAnimationScript.Spawnpoint = spawnPoint;
+        bottleAnimationScript.BottleScript = gameObject.GetComponent<BottleScript>();
+        IsAnimationStarted = true;
 
         buttonPressed = true;
     } 

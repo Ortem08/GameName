@@ -30,7 +30,10 @@ public class Settings : MonoBehaviour
             AM.SetFloat("MasterVolume", volVal);
         }
         else
-            AM.SetFloat("MasterVolume", -10);
+        {
+            Volume.value = -17;
+            AM.SetFloat("MasterVolume", -17);
+        }
 
         if (PlayerPrefs.HasKey("QualityValue"))
         {
@@ -39,24 +42,6 @@ public class Settings : MonoBehaviour
             QualitySettings.SetQualityLevel(qulVal);
         }
     }
-        
-
-    //public Dropdown dropdown;
-
-    //private Resolution[] rsl;
-    //private List<string> resolutions;
-
-    //private void Start()
-    //{
-    //    resolutions = new List<string>();
-    //    rsl = Screen.resolutions;
-    //    foreach (var i in rsl)
-    //    {
-    //        resolutions.Add(i.width + "x" + i.height);
-    //    }
-    //    dropdown.ClearOptions();
-    //    dropdown.AddOptions(resolutions);
-    //}
 
     public void FullScreenToggle() => Screen.fullScreen = !Screen.fullScreen;
 

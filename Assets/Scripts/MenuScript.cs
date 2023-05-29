@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    private void Start()
-    {
-        PlayerPrefs.DeleteAll();
-    }
+    //private void Start()
+    //{
+    //    PlayerPrefs.DeleteAll();
+    //}
+
     public void PlayPressed() =>
         SceneManager.LoadScene(PlayerPrefs.GetInt("CompletedLevels") + 1);
 
