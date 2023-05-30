@@ -3,18 +3,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
+using UnityEngine.UIElements;
 
-public class CasketScript : MonoBehaviour
+public class TurntableScript : MonoBehaviour
 {
-    public Sprite CasketImage;
-    public GameObject CasketScriptHolder;
+    public Sprite TurntableImage;
+    public GameObject TurntableScriptHolder;
 
-    [SerializeField]
-    public static float DamageDistance => 10f;
-    
+    [SerializeField] public static float DamageDistance { get; private set; }
 
-    private GameObject currentChest;
+    private GameObject currentTable;
     private Vector3 startPosition;
     private Vector3 direction;
     private Vector3 spawnPoint;
@@ -23,33 +21,35 @@ public class CasketScript : MonoBehaviour
     private AudioSource audioSource;
     private GameObject player;
     private bool flag = true;
+    private bool SecondPrepareStarted { get; set; }
 
     private AudioMixer Mixer { get; set; }
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        prepareSoundIsDone = false;
 
         startPosition = player.transform.position;
         direction = player.GetComponent<NavMeshAgent>().destination - startPosition;
         spawnPoint = startPosition + direction.normalized * 3;
 
-        currentChest = new GameObject();
-        var chectSprite = currentChest.AddComponent<SpriteRenderer>();
-        chectSprite.sprite = CasketImage;
-        chectSprite.sortingOrder = -1;
-        currentChest.transform.position = spawnPoint;
+        currentTable = new GameObject();
+        var turntableSprite = currentTable.AddComponent<SpriteRenderer>();
+        turntableSprite.sprite = TurntableImage;
+        currentTable.transform.localScale = new Vector3(3, 3, 1); 
+        turntableSprite.sortingOrder = -1;
+        currentTable.transform.position = spawnPoint;
 
         npcs = GameObject.FindGameObjectsWithTag("NPC");
-        
+
+        DamageDistance = 5f;
         Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
-        MakePrepareSound();
+        MakeFirstPrepareSound();
     }
 
     private void Update()
     {
-        if (audioSource != null && !audioSource.isPlaying)
+        if (audioSource != null && !audioSource.isPlaying && SecondPrepareStarted)
         {
             prepareSoundIsDone = true;
             player.GetComponent<PlayerControl>().BlockedByAnotherScript = false;
@@ -57,18 +57,21 @@ public class CasketScript : MonoBehaviour
 
         if (prepareSoundIsDone && flag)
         {
-            currentChest.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            currentTable.GetComponent<SpriteRenderer>().sortingOrder = 10;
             flag = false;
 
-            var casketSong = Resources.Load<AudioClip>("CascetSong" + Random.Range(1, 8));
+            var vinilSong = Resources.Load<AudioClip>("VinilSong" + Random.Range(1, 8));
+            Debug.Log(vinilSong.name);
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
             //audioSource.clip = casketSong;
             //audioSource.volume = 0.02f;
             //audioSource.loop = false;
-            audioSource.PlayOneShot(casketSong);
-            currentChest.AddComponent<AudioVolumeDistance>().Source = audioSource;
-        }
+            audioSource.PlayOneShot(vinilSong);
+            currentTable.AddComponent<AudioVolumeDistance>().Source = audioSource;
+            currentTable.AddComponent<Animator>().runtimeAnimatorController = 
+                AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>("Assets/Animation/PF Turntable.controller");
+        }   
 
         if (!audioSource.isPlaying && prepareSoundIsDone)
         {
@@ -84,28 +87,40 @@ public class CasketScript : MonoBehaviour
                 {
                     MakeDamage(bro, distance);
                     //Destroy(gameObject);
-                    //Destroy(currentChest);
+                    //Destroy(currentTable);
                 }
             }
         }
     }
 
-    private void MakePrepareSound()
+    private void MakeFirstPrepareSound()
     {
-        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + Random.Range(1, 4));
+        var turntablePrepareSound = Resources.Load<AudioClip>("VinilPrepareFirst" + Random.Range(1, 2));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
         //audioSource.clip = casketPrepareSound;
         //audioSource.volume = 0.02f;
         //audioSource.loop = false;
-        audioSource.PlayOneShot(casketPrepareSound);
+        audioSource.PlayOneShot(turntablePrepareSound);
+        Invoke(nameof(MakeSecondPrepareSound), turntablePrepareSound.length);
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
+    }
+
+    private void MakeSecondPrepareSound()
+    {
+        var turntablePrepareSound = Resources.Load<AudioClip>("VinilPrepareSecond" + Random.Range(1, 3));
+        //audioSource.clip = casketPrepareSound;
+        //audioSource.volume = 0.02f;
+        //audioSource.loop = false;
+        audioSource.PlayOneShot(turntablePrepareSound);
+        player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
+        SecondPrepareStarted = true;
     }
 
     private void KillCasketScript()
     {
-        Destroy(currentChest);
-        Destroy(CasketScriptHolder);
+        Destroy(currentTable);
+        Destroy(TurntableScriptHolder);
     }
 
     private void MakeDamage(GameObject npc, float distance)

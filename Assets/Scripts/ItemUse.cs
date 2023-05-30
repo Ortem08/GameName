@@ -96,6 +96,13 @@ public class ItemUse : MonoBehaviour
             cascetScript.CasketScriptHolder = gameObj;
         }
 
+        if (objectImage.name.Contains("Turntable"))
+        {
+            var turntableScript = gameObj.AddComponent<TurntableScript>();
+            turntableScript.TurntableImage = objectImage.sprite;
+            turntableScript.TurntableScriptHolder = gameObj;
+        }
+
         if (objectImage.name.Contains("Bottle"))
         {
             var bottleScript = gameObj.AddComponent<BottleScript>();

@@ -5,11 +5,12 @@ using UnityEngine;
 public class PickUpController : MonoBehaviour
 {
     public float PickUpRadius = 1.5f;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, PickUpRadius);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, PickUpRadius);
             foreach (var col in colliders)
             {
                 if (col.gameObject.tag is not "Item")

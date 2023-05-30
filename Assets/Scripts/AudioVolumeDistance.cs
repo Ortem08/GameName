@@ -18,7 +18,7 @@ public class AudioVolumeDistance : MonoBehaviour
     
     void Update()
     {
-        float distance = Vector2.Distance(player.position, transform.position);
+        var distance = Vector2.Distance(player.position, transform.position);
 
         if (distance > maxDistance)
             Source.volume = minVolume;
