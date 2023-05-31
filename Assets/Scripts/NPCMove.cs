@@ -21,7 +21,7 @@ public class NPCMove : MonoBehaviour
 
     private Animator AnimatorController { get; set; }
 
-    public bool IsInfected { get; private set; }
+    //public bool IsInfected { get; private set; }
 
     void Start()
     {
@@ -46,37 +46,38 @@ public class NPCMove : MonoBehaviour
         agent.SetDestination(target);
     }
 
-    // Function to apply damage to the NPC within a given radius
-    public void ApplyDamage(float radius)
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+    //// Function to apply damage to the NPC within a given radius
+    //public void ApplyDamage(float radius)
+    //{
+    //    Debug.Log("NPC takes damage!");
+    //    Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
-        foreach (Collider collider in colliders)
-        {
-            var npc = collider.GetComponent<NPCMove>();
+    //    foreach (Collider collider in colliders)
+    //    {
+    //        var npc = collider.GetComponent<NPCMove>();
 
-            if (npc != null && !npc.IsInfected)
-            {
-                // Apply damage to the NPC
-                Debug.Log("NPC takes damage!");
-            }
-        }
-    }
+    //        if (npc != null && npc.IsInfected)
+    //        {
+    //            // Apply damage to the NPC
+    //            Debug.Log("NPC takes damage!");
+    //        }
+    //    }
+    //}
 
-    // Function to infect the NPC
-    public void Infect()
-    {
-        IsInfected = true;
-        // Apply infection effect to the NPC
-        Debug.Log("NPC gets infected!");
-    }
+    //// Function to infect the NPC
+    //public void Infect()
+    //{
+    //    IsInfected = true;
+    //    // Apply infection effect to the NPC
+    //    Debug.Log("NPC gets infected!");
+    //}
 
-    // Function to update the infection effect on the NPC
-    public void UpdateInfectionEffect()
-    {
-        // Update infection effect on the NPC
-        Debug.Log("NPC infection effect updated!");
-    }
+    //// Function to update the infection effect on the NPC
+    //public void UpdateInfectionEffect()
+    //{
+    //    // Update infection effect on the NPC
+    //    Debug.Log("NPC infection effect updated!");
+    //}
 
     private void SetAnimation()
     {

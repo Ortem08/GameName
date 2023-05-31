@@ -121,6 +121,7 @@ public class ItemUse : MonoBehaviour
         if (objectImage.name.Contains("Virus"))
         {
             gameObj.AddComponent<FearVirusItem>();
+            gameObj.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
         }
     }
 
