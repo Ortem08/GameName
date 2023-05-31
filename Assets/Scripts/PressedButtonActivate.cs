@@ -31,8 +31,11 @@ public class PressedButtonActivate : MonoBehaviour
             ""
         };
         TextBox = GameObject.FindGameObjectWithTag("TutorialMessage");
-        TextBox.GetComponentInChildren<TextMeshProUGUI>().text = tutorialMessages[0];
-        currentTutorMessageIndex = 1;
+        if (TextBox is not null)
+        {
+            TextBox.GetComponentInChildren<TextMeshProUGUI>().text = tutorialMessages[0];
+            currentTutorMessageIndex = 1;
+        }
     }
     
     public void DropItem()

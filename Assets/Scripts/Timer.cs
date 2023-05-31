@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    public TextMeshProUGUI timer;
+    public TextMeshProUGUI TimerText;
+    public float TargetTime;
 
-    public float lifeTime = 60f;
     private float gameTime;
-
 
     private void Update()
     {
-        timer.text = lifeTime.ToString();
+        var minutes = ((int)(TargetTime / 60)).ToString();
+        var seconds = TargetTime % 60 < 10 ? "0" + TargetTime % 60 : (TargetTime % 60).ToString();
+        TimerText.text =  minutes + ':' + seconds;
         gameTime += 1 * Time.deltaTime;
         if (gameTime >= 1)
         {
-            lifeTime -= 1;
+            TargetTime -= 1;
             gameTime = 0;
         }
-        if (lifeTime < 10)
-        {
-            timer.color = Color.yellow;
-        }
-        if (lifeTime <= 3)
-        {
-            timer.color = Color.red;
-        }
+        if (TargetTime < 10)
+            TimerText.color = Color.yellow;
+        if (TargetTime <= 3)
+            TimerText.color = Color.red;
+        if(TargetTime < 0.01)
+            SceneManager.LoadScene("Menu");
     }
 }

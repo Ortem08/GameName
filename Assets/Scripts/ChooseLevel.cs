@@ -43,6 +43,6 @@ public class ChooseLevel : MonoBehaviour
         Level1.interactable = false;
         Level2.interactable = false;
         Level3.interactable = false;
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("CompletedLevels");
     }
 }
