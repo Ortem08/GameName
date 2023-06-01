@@ -10,8 +10,7 @@ public class NPCDeath : MonoBehaviour
     {
         gravestone = Resources.Load<GameObject>("Prefabs/Gravestone");
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (gameObject.GetComponentInChildren<HpBar>().CurrentHeath < 0.01)

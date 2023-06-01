@@ -63,9 +63,7 @@ public class CasketScript : MonoBehaviour
             var casketSong = Resources.Load<AudioClip>("Sounds/CascetSong" + Random.Range(1, 8));
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-            //audioSource.clip = casketSong;
-            //audioSource.volume = 0.02f;
-            //audioSource.loop = false;
+            audioSource.volume = 1f;
             audioSource.PlayOneShot(casketSong);
             currentChest.AddComponent<AudioVolumeDistance>().Source = audioSource;
         }
@@ -98,9 +96,7 @@ public class CasketScript : MonoBehaviour
         var casketPrepareSound = Resources.Load<AudioClip>("Sounds/CascetPrepare" + Random.Range(1, 4));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-        //audioSource.clip = casketPrepareSound;
-        //audioSource.volume = 0.02f;
-        //audioSource.loop = false;
+        audioSource.volume = 0.5f;
         audioSource.PlayOneShot(casketPrepareSound);
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
     }

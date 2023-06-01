@@ -61,12 +61,9 @@ public class TurntableScript : MonoBehaviour
             flag = false;
 
             var vinilSong = Resources.Load<AudioClip>("Sounds/VinilSong" + Random.Range(1, 8));
-            Debug.Log(vinilSong.name);
+            
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-            //audioSource.clip = casketSong;
-            //audioSource.volume = 0.02f;
-            //audioSource.loop = false;
             audioSource.PlayOneShot(vinilSong);
             currentTable.AddComponent<AudioVolumeDistance>().Source = audioSource;
             currentTable.AddComponent<Animator>().runtimeAnimatorController = 
@@ -80,14 +77,13 @@ public class TurntableScript : MonoBehaviour
 
         else if (audioSource.isPlaying && prepareSoundIsDone)
         {
-            foreach (var bro in npcs)
+            foreach (var npc in npcs)
             {
-                var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
-                if (distance < DamageDistance)
+                if (npc != null)
                 {
-                    MakeDamage(bro, distance);
-                    //Destroy(gameObject);
-                    //Destroy(currentTable);
+                    var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
+                    if (distance < DamageDistance)
+                        MakeDamage(npc, distance);
                 }
             }
         }
@@ -98,9 +94,7 @@ public class TurntableScript : MonoBehaviour
         var turntablePrepareSound = Resources.Load<AudioClip>("Sounds/VinilPrepareFirst" + Random.Range(1, 2));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-        //audioSource.clip = casketPrepareSound;
-        //audioSource.volume = 0.02f;
-        //audioSource.loop = false;
+        audioSource.volume = 0.7f;
         audioSource.PlayOneShot(turntablePrepareSound);
         Invoke(nameof(MakeSecondPrepareSound), turntablePrepareSound.length);
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
@@ -109,9 +103,7 @@ public class TurntableScript : MonoBehaviour
     private void MakeSecondPrepareSound()
     {
         var turntablePrepareSound = Resources.Load<AudioClip>("Sounds/VinilPrepareSecond" + Random.Range(1, 3));
-        //audioSource.clip = casketPrepareSound;
-        //audioSource.volume = 0.02f;
-        //audioSource.loop = false;
+        audioSource.volume = 0.7f;
         audioSource.PlayOneShot(turntablePrepareSound);
         player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
         SecondPrepareStarted = true;

@@ -7,11 +7,8 @@ using UnityEngine.Audio;
 public class TeleportScript : MonoBehaviour
 {
     public bool IsRecevingPortal;
-
-    private Rigidbody2D rigidbody2D;
-    private Collider2D collider2D;
+    
     private GameObject player;
-    private Collider2D playerCollider;
     private AudioMixer Mixer { get; set; }
     private AudioSource teleportSound;
     private AudioClip teleportSoundClip;
@@ -22,10 +19,7 @@ public class TeleportScript : MonoBehaviour
     {
         IsRecevingPortal = false;
         Mixer = Resources.Load<AudioMixer>("AudioMixer");
-        rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        collider2D = gameObject.GetComponent<Collider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
-        playerCollider = player.GetComponent<Collider2D>();
         var teleports = GameObject.FindGameObjectsWithTag(gameObject.tag);
         foreach(var teleport in teleports)
         {
@@ -42,24 +36,19 @@ public class TeleportScript : MonoBehaviour
         teleportSound.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
     }
 
-    void Update()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsRecevingPortal && collision.gameObject.tag == "Player")
         {
             player.GetComponent<NavMeshAgent>().ResetPath();
             player.GetComponent<NavMeshAgent>().enabled = false;
+
             var pos = anotherPortal.transform.localPosition;
-            Debug.Log(player.transform.position + " " + gameObject.transform.position);
             anotherPortal.GetComponent<TeleportScript>().IsRecevingPortal = true;
             IsRecevingPortal = true;
             player.GetComponent<NavMeshAgent>().transform.localPosition = pos;
             anotherPortal.transform.localPosition = player.transform.localPosition;
-            Debug.Log(player.transform.position + " " + pos);
+            
             player.GetComponent<NavMeshAgent>().enabled = true;
             StartCoroutine(WaitFewSeconds());
             teleportSound.PlayOneShot(teleportSoundClip);
@@ -72,7 +61,6 @@ public class TeleportScript : MonoBehaviour
 
         anotherPortal.GetComponent<TeleportScript>().IsRecevingPortal = false;
         IsRecevingPortal = false;
-
     }
 
     private IEnumerator WaitFor(int seconds)

@@ -54,7 +54,7 @@ public class PressedButtonActivate : MonoBehaviour
         currentTutorMessageIndex++;
 
         if (currentTutorMessageIndex == tutorialMessages.Count - 1)
-            buttonText.GetComponentInChildren<TextMeshProUGUI>().text = "Закрыть";
+            buttonText.GetComponentInChildren<TextMeshProUGUI>().text = "Close";
 
         if (currentTutorMessageIndex >= tutorialMessages.Count)
         {
