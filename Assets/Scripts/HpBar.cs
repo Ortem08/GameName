@@ -13,6 +13,7 @@ public class HpBar : MonoBehaviour
     public bool isInfected;
     public static List<GameObject> infectedNPCs;
     public int currentRippleCount;
+    public GameObject particleEffect;
 
     public RectTransform greenBar;
     public RectTransform whiteBar;
@@ -30,10 +31,10 @@ public class HpBar : MonoBehaviour
 
     private void Update()
     {
-        if (isInfected)
-        {
-            ChangeHealth(-0.01f);
-        }
+        //if (isInfected)
+        //{
+        //    ChangeHealth(-0.01f);
+        //}
     }
 
     public void ChangeHealth(float value)
