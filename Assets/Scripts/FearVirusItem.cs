@@ -24,11 +24,12 @@ public class FearVirusItem : MonoBehaviour
 
     void Start()
     {
+        random= new System.Random();
         soundsCount = 10;
         sickSounds = new List<AudioClip>();
         for (var i = 1; i < soundsCount + 1; i++)
         {
-            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + i.ToString());
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + random.Next(1, 10).ToString());
             sickSounds.Add(sickSoundClip);
         }
 
@@ -67,11 +68,9 @@ public class FearVirusItem : MonoBehaviour
         var colliderInCircle = Physics2D.OverlapCircleAll(spawnPoint, radius);
         foreach(var collider in colliderInCircle)
         {
-            if (collider.gameObject.tag == "NPC" && collider.gameObject != npc)
+            if (collider.gameObject.tag == "NPC" && collider.gameObject != npc && collider.gameObject.GetComponentInChildren<HpBar>().isInfected == false)
             {
-                if (collider.gameObject.GetComponentInChildren<HpBar>().isInfected == false) 
-                    npcCount++;
-
+                npcCount++;
                 SprayVirus(collider);
             }
         }

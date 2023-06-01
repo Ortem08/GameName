@@ -39,7 +39,7 @@ public class BottleScript : MonoBehaviour
         IsAnimationFinished = false;
 
         aTimer = new System.Timers.Timer();
-        aTimer.Interval = 2000;
+        aTimer.Interval = 10000;
         aTimer.AutoReset = false;
         aTimer.Enabled = false;
 
