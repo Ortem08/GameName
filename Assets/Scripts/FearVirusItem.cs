@@ -13,8 +13,9 @@ public class FearVirusItem : MonoBehaviour
     public float rippleInterval = 1f;
     public int maxRippleCount = 5;
     public float infectionDuration = 6f;
+    public bool setActive;
+    public bool firstUsage;
 
-    private GameObject infectedNPC;
     private GameObject[] npcs;
     private Collider2D[] colliders;
     private System.Random random;
@@ -24,12 +25,14 @@ public class FearVirusItem : MonoBehaviour
 
     void Start()
     {
-        random= new System.Random();
+        firstUsage = true;
+        setActive = false;
+        random = new System.Random();
         soundsCount = 10;
         sickSounds = new List<AudioClip>();
         for (var i = 1; i < soundsCount + 1; i++)
         {
-            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + random.Next(1, 10).ToString());
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + random.Next(1, 10));
             sickSounds.Add(sickSoundClip);
         }
 
@@ -43,9 +46,12 @@ public class FearVirusItem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && firstUsage)
         {
+            firstUsage = false;
+            setActive = true;
             SelectVirusArea(Input.mousePosition, true, null);
+
         }
     }
 
@@ -80,7 +86,7 @@ public class FearVirusItem : MonoBehaviour
             var soundSpeaker = new GameObject();
             var sickSound = soundSpeaker.AddComponent<AudioSource>();
             sickSound.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-            sickSound.PlayOneShot(sickSounds[random.Next(0, soundsCount)]);
+            sickSound.PlayOneShot(sickSounds[random.Next(0, soundsCount - 1)]);
         }
     }
 

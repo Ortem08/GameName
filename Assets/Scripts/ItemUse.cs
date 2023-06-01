@@ -34,7 +34,7 @@ public class ItemUse : MonoBehaviour
             inventory.isFull[0] = false;
             var mainObject = new GameObject();
             AddComponents(mainObject, objectImage);
-            if (objectImage.name.Contains("Bottle"))
+            if (objectImage.name.Contains("Bottle") || objectImage.name.Contains("Virus"))
             {
                 var onMouseItem = new GameObject();
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
@@ -54,7 +54,7 @@ public class ItemUse : MonoBehaviour
             var mainObject = new GameObject();
             AddComponents(mainObject, objectImage);
 
-            if (objectImage.name.Contains("Bottle"))
+            if (objectImage.name.Contains("Bottle") || objectImage.name.Contains("Virus"))
             {
                 var onMouseItem = new GameObject();
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
@@ -74,7 +74,7 @@ public class ItemUse : MonoBehaviour
             var mainObject = new GameObject();
             AddComponents(mainObject, objectImage);
 
-            if (objectImage.name.Contains("Bottle"))
+            if (objectImage.name.Contains("Bottle") || objectImage.name.Contains("Virus"))
             {
                 var onMouseItem = new GameObject();
                 onMouseItem.AddComponent<SpriteRenderer>().sprite = objectImage.sprite;
@@ -132,9 +132,22 @@ public class ItemUse : MonoBehaviour
 
     private IEnumerator CheckForUsage(GameObject mainItem, GameObject onMouseItem, Image objectImage)
     {
-        var bottleScriptHolder = mainItem.GetComponent<BottleScript>();
-        while (!bottleScriptHolder.IsAnimationStarted)
-            yield return null;
+        if (objectImage.name.Contains("Bottle"))
+        {
+            var bottleScriptHolder = mainItem.GetComponent<BottleScript>();
+            while (!bottleScriptHolder.IsAnimationStarted)
+                yield return null;
+        }
+
+        if (objectImage.name.Contains("Virus"))
+        {
+            var virusScriptHolder = mainItem.GetComponent<FearVirusItem>();
+            while (!virusScriptHolder.firstUsage)
+                yield return null;
+        }
+
+
+
         Destroy(onMouseItem);
         Destroy(objectImage.gameObject);
     }
