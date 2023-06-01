@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class ItemUse : MonoBehaviour
 {
-    public RuntimeAnimatorController BottleAnimationController;
+    [SerializeField] public RuntimeAnimatorController BottleAnimationController;
 
     private GameObject firstSlot;
     private GameObject secondSlot;
@@ -94,6 +94,11 @@ public class ItemUse : MonoBehaviour
             var cascetScript = gameObj.AddComponent<CasketScript>();
             cascetScript.CasketImage = objectImage.sprite;
             cascetScript.CasketScriptHolder = gameObj;
+        }
+
+        if (objectImage.name.Contains("Energy"))
+        {
+            gameObj.AddComponent<EnergyScript>();
         }
 
         if (objectImage.name.Contains("Turntable"))
