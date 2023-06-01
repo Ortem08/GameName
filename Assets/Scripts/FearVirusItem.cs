@@ -30,9 +30,9 @@ public class FearVirusItem : MonoBehaviour
         random = new System.Random();
         soundsCount = 10;
         sickSounds = new List<AudioClip>();
-        for (var i = 1; i < soundsCount + 1; i++)
+        for (var i = 1; i < soundsCount; i++)
         {
-            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + random.Next(1, 10));
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + i.ToString());
             sickSounds.Add(sickSoundClip);
         }
 
