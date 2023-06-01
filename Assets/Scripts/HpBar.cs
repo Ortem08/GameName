@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,9 @@ public class HpBar : MonoBehaviour
     public int MaxHealth;
     public float CurrentHeath;
     public float AnimationSpeed = 8f;
+    public bool isInfected;
+    public static List<GameObject> infectedNPCs;
+    public int currentRippleCount;
 
     public RectTransform greenBar;
     public RectTransform whiteBar;
@@ -18,7 +22,18 @@ public class HpBar : MonoBehaviour
 
     private void Start()
     {
+        currentRippleCount = 0;
+        isInfected = false;
+        infectedNPCs = new List<GameObject>();
         fullWidth = greenBar.rect.width;
+    }
+
+    private void Update()
+    {
+        if (isInfected)
+        {
+            ChangeHealth(-0.01f);
+        }
     }
 
     public void ChangeHealth(float value)
@@ -42,5 +57,10 @@ public class HpBar : MonoBehaviour
             yield return null;
         }
         slowChangeBar.sizeDelta = new Vector2(TargetWidth, slowChangeBar.rect.height);
+    }
+
+    private IEnumerator WaitFor(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }
