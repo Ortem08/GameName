@@ -31,16 +31,25 @@ public class BottleAnimationScript : MonoBehaviour
         audioSource.loop = true;
         //audioSource.volume = 0.02f;
         audioSource.Play();
-        
+        StartCoroutine(MoveBottle());
+
         vector = (Spawnpoint - startPosition).normalized;
     }
 
     void Update()
     {
-        for (var i = 0; i < 10; i++)
+
+    }
+
+    private IEnumerator MoveBottle()
+    {
+        while (true)
         {
+            yield return new WaitForSeconds(0.01f);
+
             var pos = transform.position;
-            transform.position = new Vector3(pos.x + 0.001f * vector.x, pos.y + 0.001f * vector.y, 0);
+            transform.position = new Vector3(pos.x + 0.1f * vector.x, pos.y + 0.1f * vector.y, 0);
+
             if (!OncePlayed && (pos - Spawnpoint).magnitude < 10e-2)
             {
                 OncePlayed = true;
@@ -53,7 +62,6 @@ public class BottleAnimationScript : MonoBehaviour
                 breakSoundSource.PlayOneShot(soundClipBottleBreak);
                 //StartCoroutine(DestroyAfterPlaying(soundSpeaker, gameObject));
                 Destroy(gameObject);
-                break;
             }
         }
     }
@@ -69,4 +77,9 @@ public class BottleAnimationScript : MonoBehaviour
     //    Destroy(animationHandler);
     //    Destroy(speaker);
     //}
+
+    private IEnumerator WaitFor(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
 }
