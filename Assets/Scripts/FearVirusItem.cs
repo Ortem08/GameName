@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Linq;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class FearVirusItem : MonoBehaviour
 {
     public float radius = 5f;
-    public float rippleInterval = 0.5f;
-    public int maxRippleCount = 12;
+    public float rippleInterval = 1f;
+    public int maxRippleCount = 5;
     public float infectionDuration = 6f;
 
     private GameObject infectedNPC;
     private GameObject[] npcs;
     private Collider2D[] colliders;
+    private int counter;
 
     void Start()
     {
+        counter = 0;
         npcs = GameObject.FindGameObjectsWithTag("NPC");
         colliders = new Collider2D[npcs.Length];
         for (var i = 0; i < npcs.Length; i++)
@@ -47,7 +50,6 @@ public class FearVirusItem : MonoBehaviour
 
 
         var colliderInCircle = Physics2D.OverlapCircleAll(spawnPoint, radius);
-        Debug.Log(colliderInCircle.Length);
         foreach (var collider in colliderInCircle)
         {
             if (collider.gameObject.tag == "NPC" && collider.gameObject != npc)
@@ -60,37 +62,50 @@ public class FearVirusItem : MonoBehaviour
     private void SprayVirus(Collider2D other)
     {
         Debug.Log("Spray virus on the " + other.ToString());
-        Debug.Log(other.GetComponentInChildren<HpBar>());
         other.GetComponentInChildren<HpBar>().isInfected = true;
         HpBar.infectedNPCs.Add(other.gameObject);
-        StartCoroutine(VirusDurationCoroutine(other.gameObject));
+        //StartCoroutine(VirusDurationCoroutine(other.gameObject));
         StartCoroutine(RippleEffectCoroutine(other.gameObject));
     }
 
     private IEnumerator VirusDurationCoroutine(GameObject npc)
     {
-        yield return new WaitForSeconds(infectionDuration);
-        npc.GetComponentInChildren<HpBar>().isInfected = false;
-        npc.GetComponentInChildren<HpBar>().currentRippleCount = 0;
-        HpBar.infectedNPCs.Remove(npc);
+        if (!npc.IsDestroyed())
+        {
+            yield return new WaitForSeconds(infectionDuration);
+            if (!npc.IsDestroyed())
+            {
+                npc.GetComponentInChildren<HpBar>().isInfected = false;
+                npc.GetComponentInChildren<HpBar>().currentRippleCount = 0;
+                HpBar.infectedNPCs.Remove(npc);
+                var particle = npc.transform.GetChild(1).gameObject;
+                particle.SetActive(false);
+            }
+        }
     }
 
     private IEnumerator RippleEffectCoroutine(GameObject npc)
     {
-        while (npc.GetComponentInChildren<HpBar>().currentRippleCount < maxRippleCount && npc.GetComponentInChildren<HpBar>().isInfected)
+        while (!npc.IsDestroyed() && npc.GetComponentInChildren<HpBar>().currentRippleCount < maxRippleCount && npc.GetComponentInChildren<HpBar>().isInfected)
         {
             yield return new WaitForSeconds(rippleInterval);
 
-            if (npc.GetComponentInChildren<HpBar>().isInfected)
+            if (!npc.IsDestroyed() && npc.GetComponentInChildren<HpBar>().isInfected)
             {
-                SelectVirusArea(npc.transform.position, false, npc);
-                //npc.GetComponentInChildren<HpBar>().ChangeHealth(-2.5f);
-                npc.GetComponentInChildren<HpBar>().currentRippleCount++;
 
-                //if (currentRippleCount == maxRippleCount)
-                //{
-                //    npc.GetComponentInChildren<HpBar>().isInfected = false;
-                //}
+                SelectVirusArea(npc.transform.position, false, npc);
+                var particle = npc.transform.GetChild(1).gameObject;
+                particle.SetActive(true);
+                npc.GetComponentInChildren<HpBar>().currentRippleCount++;
+                //Instantiate(particle, npc.transform.position, Quaternion.identity);
+                //npc.GetComponentInChildren<HpBar>().ChangeHealth(-2.5f);
+                npc.GetComponentInChildren<HpBar>().ChangeHealth(-0.5f);
+
+                if (npc.GetComponentInChildren<HpBar>().currentRippleCount == maxRippleCount)
+                {
+                    npc.GetComponentInChildren<HpBar>().isInfected = false;
+                    particle.SetActive(false);
+                }
             }
         }
     }
