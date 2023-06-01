@@ -57,7 +57,6 @@ public class BottleAnimationScript : MonoBehaviour
                 var soundSpeaker = new GameObject();
                 var breakSoundSource = soundSpeaker.AddComponent<AudioSource>();
                 breakSoundSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-                //breakSoundSource.clip = soundClipBottleBreak;
                 //breakSoundSource.volume = 0.02f;
                 breakSoundSource.PlayOneShot(soundClipBottleBreak);
                 //StartCoroutine(DestroyAfterPlaying(soundSpeaker, gameObject));
