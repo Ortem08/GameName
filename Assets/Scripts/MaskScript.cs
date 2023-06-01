@@ -11,8 +11,9 @@ public class MaskScript : MonoBehaviour
 
     void Start()
     {
+        
         Mixer = Resources.Load<AudioMixer>("AudioMixer");
-        var clip = Resources.Load<AudioClip>("Sounds/ScreamSounds/Scream" + Random.Range(1, 22));
+        var clip = Resources.Load<AudioClip>("Sounds/ScreamSounds/Scream" + Random.Range(1, 22).ToString());
         var soundSpeaker = new GameObject();
         var screamSound = soundSpeaker.AddComponent<AudioSource>();
         screamSound.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
@@ -26,6 +27,7 @@ public class MaskScript : MonoBehaviour
             if (distance < 10)
             {
                 RunAway(npc);
+                npc.GetComponentInChildren<HpBar>().ChangeHealth(-50f);
             }
         }
         screamSound.PlayOneShot(clip);
