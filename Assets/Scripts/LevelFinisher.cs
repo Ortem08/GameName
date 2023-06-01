@@ -17,8 +17,10 @@ public class LevelFinisher : MonoBehaviour
     private void Update()
     {
         foreach (var npc in npcs)
-            if (npc.GetComponentInChildren<HpBar>().CurrentHeath < 5)
+        {
+            if (npc != null && npc.GetComponentInChildren<HpBar>().CurrentHeath < 0.01)
                 killed++;
+        }
 
         if (killed >= KillToFinish)
             LevelController.Instance.IsEndGame();

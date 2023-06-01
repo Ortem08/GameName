@@ -77,14 +77,17 @@ public class CasketScript : MonoBehaviour
 
         else if (audioSource.isPlaying && prepareSoundIsDone)
         {
-            foreach (var bro in npcs)
+            foreach (var npc in npcs)
             {
-                var distance = Mathf.Abs((bro.transform.position - spawnPoint).magnitude);
-                if (distance < DamageDistance)
+                if (npc != null)
                 {
-                    MakeDamage(bro, distance);
-                    //Destroy(gameObject);
-                    //Destroy(currentChest);
+                    var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
+                    if (distance < DamageDistance)
+                    {
+                        MakeDamage(npc, distance);
+                        //Destroy(gameObject);
+                        //Destroy(currentChest);
+                    }
                 }
             }
         }

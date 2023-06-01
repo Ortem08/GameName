@@ -16,12 +16,9 @@ public class NPCMove : MonoBehaviour
 
     private NavMeshAgent agent;
     private Vector3 target;
-    //private Random rnd1 = new ();
-    //private Random rnd2 = new ();
 
+    public bool IsInfected { get; private set; }
     private Animator AnimatorController { get; set; }
-
-    //public bool IsInfected { get; private set; }
 
     void Start()
     {

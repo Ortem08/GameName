@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class PickUp : MonoBehaviour
 {
+    public GameObject ImageInSlot;
     private Inventory inventory;
-    public GameObject SlotButton;
 
     private void Start()
     {
@@ -21,8 +21,9 @@ public class PickUp : MonoBehaviour
         for (int i = 0; i < inventory.slots.Length; i++)
             if (!inventory.isFull[i])
             {
+                ImageInSlot.GetComponent<Spawn>().SavedScale = gameObject.transform.localScale;
                 Destroy(gameObject);
-                Instantiate(SlotButton, inventory.slots[i].transform);
+                Instantiate(ImageInSlot, inventory.slots[i].transform);
                 inventory.isFull[i] = true;
                 break;
             }
