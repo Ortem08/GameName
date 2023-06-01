@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class TeleportScript : MonoBehaviour
 {
