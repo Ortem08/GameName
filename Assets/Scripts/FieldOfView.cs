@@ -4,44 +4,42 @@ using System.Collections.Generic;
 
 public class FieldOfView : MonoBehaviour
 {
-    public float radius = 15f;
+    public float Radius = 15f;
     [Range(1, 360)] public float angle = 360f;
     public LayerMask targetLayer;
     public LayerMask obstructionLayer;
 
-    public GameObject playerRef;
+    private GameObject player;
 
-    public bool CanSeePlayer { get; private set; }
+    public bool CanSeePlayer;
 
     void Start()
     {
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVCheck());
     }
 
     private IEnumerator FOVCheck()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
-
         while (true)
         {
-            yield return wait;
+            yield return new WaitForSeconds(0.2f);
             FOV();
         }
     }
 
     private void FOV()
     {
-        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
+        var rangeCheck = Physics2D.OverlapCircleAll(transform.position, Radius, targetLayer);
 
         if (rangeCheck.Length > 0)
         {
-            Transform target = rangeCheck[0].transform;
-            Vector2 directionToTarget = (target.position - transform.position).normalized;
+            var target = rangeCheck[0].transform;
+            var directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector2.Angle(transform.up, directionToTarget) < angle / 2)
             {
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
+                var distanceToTarget = Vector2.Distance(transform.position, target.position);
 
                 if (Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
                     CanSeePlayer = true;
@@ -55,20 +53,20 @@ public class FieldOfView : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, radius);
+        Gizmos.color = Color.white; 
+        //UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, Radius);
 
         Vector3 angle01 = DirectionFromAngle(-transform.eulerAngles.z, -angle / 2);
         Vector3 angle02 = DirectionFromAngle(-transform.eulerAngles.z, angle / 2);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + angle01 * radius);
-        Gizmos.DrawLine(transform.position, transform.position + angle02 * radius);
+        Gizmos.DrawLine(transform.position, transform.position + angle01 * Radius);
+        Gizmos.DrawLine(transform.position, transform.position + angle02 * Radius);
 
         if (CanSeePlayer)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, playerRef.transform.position);
+            Gizmos.DrawLine(transform.position, player.transform.position);
         }
     }
 

@@ -18,7 +18,7 @@ public class LevelFinisher : MonoBehaviour
     {
         foreach (var npc in npcs)
         {
-            if (npc != null && npc.GetComponentInChildren<HpBar>().CurrentHeath < 0.01)
+            if (npc == null)
                 killed++;
         }
 

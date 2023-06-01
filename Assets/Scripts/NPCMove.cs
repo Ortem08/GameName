@@ -43,11 +43,11 @@ public class NPCMove : MonoBehaviour
         agent.SetDestination(target);
     }
 
-    //// Function to apply damage to the NPC within a given radius
-    //public void ApplyDamage(float radius)
+    //// Function to apply damage to the NPC within a given Radius
+    //public void ApplyDamage(float Radius)
     //{
     //    Debug.Log("NPC takes damage!");
-    //    Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+    //    Collider[] colliders = Physics.OverlapSphere(transform.position, Radius);
 
     //    foreach (Collider collider in colliders)
     //    {

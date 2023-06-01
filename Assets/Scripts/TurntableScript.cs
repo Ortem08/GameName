@@ -43,7 +43,7 @@ public class TurntableScript : MonoBehaviour
         npcs = GameObject.FindGameObjectsWithTag("NPC");
 
         DamageDistance = 5f;
-        Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
+        Mixer = Resources.Load<AudioMixer>("AudioMixer");
         MakeFirstPrepareSound();
     }
 
@@ -60,7 +60,7 @@ public class TurntableScript : MonoBehaviour
             currentTable.GetComponent<SpriteRenderer>().sortingOrder = 10;
             flag = false;
 
-            var vinilSong = Resources.Load<AudioClip>("VinilSong" + Random.Range(1, 8));
+            var vinilSong = Resources.Load<AudioClip>("Sounds/VinilSong" + Random.Range(1, 8));
             Debug.Log(vinilSong.name);
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
@@ -70,7 +70,7 @@ public class TurntableScript : MonoBehaviour
             audioSource.PlayOneShot(vinilSong);
             currentTable.AddComponent<AudioVolumeDistance>().Source = audioSource;
             currentTable.AddComponent<Animator>().runtimeAnimatorController = 
-                AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>("Assets/Animation/PF Turntable.controller");
+                Resources.Load<RuntimeAnimatorController>("Animation/PF Turntable");
         }   
 
         if (!audioSource.isPlaying && prepareSoundIsDone)
@@ -95,7 +95,7 @@ public class TurntableScript : MonoBehaviour
 
     private void MakeFirstPrepareSound()
     {
-        var turntablePrepareSound = Resources.Load<AudioClip>("VinilPrepareFirst" + Random.Range(1, 2));
+        var turntablePrepareSound = Resources.Load<AudioClip>("Sounds/VinilPrepareFirst" + Random.Range(1, 2));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
         //audioSource.clip = casketPrepareSound;
@@ -108,7 +108,7 @@ public class TurntableScript : MonoBehaviour
 
     private void MakeSecondPrepareSound()
     {
-        var turntablePrepareSound = Resources.Load<AudioClip>("VinilPrepareSecond" + Random.Range(1, 3));
+        var turntablePrepareSound = Resources.Load<AudioClip>("Sounds/VinilPrepareSecond" + Random.Range(1, 3));
         //audioSource.clip = casketPrepareSound;
         //audioSource.volume = 0.02f;
         //audioSource.loop = false;

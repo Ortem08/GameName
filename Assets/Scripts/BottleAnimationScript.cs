@@ -22,12 +22,12 @@ public class BottleAnimationScript : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        soundClipBottleBreak = Resources.Load<AudioClip>("bottleBreak" + Random.Range(1, 4));
+        soundClipBottleBreak = Resources.Load<AudioClip>("Sounds/bottleBreak" + Random.Range(1, 4));
 
         var audioSource = gameObject.AddComponent<AudioSource>();
-        Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
+        Mixer = Resources.Load<AudioMixer>("AudioMixer");
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-        audioSource.clip = Resources.Load<AudioClip>("spinSound");
+        audioSource.clip = Resources.Load<AudioClip>("Sounds/spinSound");
         audioSource.loop = true;
         //audioSource.volume = 0.02f;
         audioSource.Play();

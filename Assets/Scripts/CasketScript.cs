@@ -43,7 +43,7 @@ public class CasketScript : MonoBehaviour
 
         npcs = GameObject.FindGameObjectsWithTag("NPC");
         
-        Mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/AudioMixer.mixer");
+        Mixer = Resources.Load<AudioMixer>("AudioMixer");
         MakePrepareSound();
     }
 
@@ -60,7 +60,7 @@ public class CasketScript : MonoBehaviour
             currentChest.GetComponent<SpriteRenderer>().sortingOrder = 10;
             flag = false;
 
-            var casketSong = Resources.Load<AudioClip>("CascetSong" + Random.Range(1, 8));
+            var casketSong = Resources.Load<AudioClip>("Sounds/CascetSong" + Random.Range(1, 8));
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
             //audioSource.clip = casketSong;
@@ -95,7 +95,7 @@ public class CasketScript : MonoBehaviour
 
     private void MakePrepareSound()
     {
-        var casketPrepareSound = Resources.Load<AudioClip>("CascetPrepare" + Random.Range(1, 4));
+        var casketPrepareSound = Resources.Load<AudioClip>("Sounds/CascetPrepare" + Random.Range(1, 4));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
         //audioSource.clip = casketPrepareSound;
