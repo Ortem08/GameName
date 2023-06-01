@@ -1,8 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UIElements;
 
 public class FearVirusItem : MonoBehaviour
@@ -15,11 +17,23 @@ public class FearVirusItem : MonoBehaviour
     private GameObject infectedNPC;
     private GameObject[] npcs;
     private Collider2D[] colliders;
-    private int counter;
+    private System.Random random;
+    private List<AudioClip> sickSounds;
+    private AudioMixer Mixer { get; set; }
+    private int soundsCount;
 
     void Start()
     {
-        counter = 0;
+        soundsCount = 10;
+        sickSounds = new List<AudioClip>();
+        for (var i = 1; i < soundsCount + 1; i++)
+        {
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + i.ToString());
+            sickSounds.Add(sickSoundClip);
+        }
+
+        random = new System.Random();
+        Mixer = Resources.Load<AudioMixer>("AudioMixer");
         npcs = GameObject.FindGameObjectsWithTag("NPC");
         colliders = new Collider2D[npcs.Length];
         for (var i = 0; i < npcs.Length; i++)
@@ -36,6 +50,7 @@ public class FearVirusItem : MonoBehaviour
 
     private void SelectVirusArea(Vector3 inputSpawnpoint, bool chooseByMouse, GameObject npc)
     {
+        var npcCount = 0;
         var radius = 3;
 
         var spawnPoint = new Vector3();
@@ -50,12 +65,23 @@ public class FearVirusItem : MonoBehaviour
 
 
         var colliderInCircle = Physics2D.OverlapCircleAll(spawnPoint, radius);
-        foreach (var collider in colliderInCircle)
+        foreach(var collider in colliderInCircle)
         {
             if (collider.gameObject.tag == "NPC" && collider.gameObject != npc)
             {
+                if (collider.gameObject.GetComponentInChildren<HpBar>().isInfected == false) 
+                    npcCount++;
+
                 SprayVirus(collider);
             }
+        }
+
+        if (npcCount > 0)
+        {
+            var soundSpeaker = new GameObject();
+            var sickSound = soundSpeaker.AddComponent<AudioSource>();
+            sickSound.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+            sickSound.PlayOneShot(sickSounds[random.Next(0, soundsCount)]);
         }
     }
 
@@ -64,7 +90,7 @@ public class FearVirusItem : MonoBehaviour
         Debug.Log("Spray virus on the " + other.ToString());
         other.GetComponentInChildren<HpBar>().isInfected = true;
         HpBar.infectedNPCs.Add(other.gameObject);
-        //StartCoroutine(VirusDurationCoroutine(other.gameObject));
+        StartCoroutine(VirusDurationCoroutine(other.gameObject));
         StartCoroutine(RippleEffectCoroutine(other.gameObject));
     }
 
@@ -97,15 +123,17 @@ public class FearVirusItem : MonoBehaviour
                 var particle = npc.transform.GetChild(1).gameObject;
                 particle.SetActive(true);
                 npc.GetComponentInChildren<HpBar>().currentRippleCount++;
+
                 //Instantiate(particle, npc.transform.position, Quaternion.identity);
                 //npc.GetComponentInChildren<HpBar>().ChangeHealth(-2.5f);
-                npc.GetComponentInChildren<HpBar>().ChangeHealth(-0.5f);
 
-                if (npc.GetComponentInChildren<HpBar>().currentRippleCount == maxRippleCount)
-                {
-                    npc.GetComponentInChildren<HpBar>().isInfected = false;
-                    particle.SetActive(false);
-                }
+                npc.GetComponentInChildren<HpBar>().ChangeHealth(-5f);
+
+                //if (npc.GetComponentInChildren<HpBar>().currentRippleCount == maxRippleCount)
+                //{
+                //    npc.GetComponentInChildren<HpBar>().isInfected = false;
+                //    particle.SetActive(false);
+                //}
             }
         }
     }
