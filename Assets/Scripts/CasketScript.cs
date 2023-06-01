@@ -11,7 +11,7 @@ public class CasketScript : MonoBehaviour
     public GameObject CasketScriptHolder;
 
     [SerializeField]
-    public static float DamageDistance => 10f;
+    public static float DamageDistance = 10f;
     
 
     private GameObject currentChest;

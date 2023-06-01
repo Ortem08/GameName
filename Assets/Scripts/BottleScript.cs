@@ -26,6 +26,11 @@ public class BottleScript : MonoBehaviour
     private GameObject[] npcs;
     private bool coroutineStarts;
     private bool itemIsDestroyed;
+    private Animator animator;
+    private float slowDistance = 3;
+    private bool IsGrowthStarted { get; set; }
+    private bool IsGrowthEnded { get; set; }
+    private bool IsBurstStarted { get; set; }
 
     void Start()
     {
@@ -50,12 +55,18 @@ public class BottleScript : MonoBehaviour
             KillBottleScript();
         }
 
+        if (!IsBurstStarted && IsGrowthEnded)
+            animator.Play("PuddleBurst");
+
         if (buttonPressed && IsAnimationFinished)
         {
+            if (!IsGrowthStarted)
+                StartBreakAnimation();
             coroutineStarts = true;
             aTimer.Enabled = true;
             StartCoroutine(LookAround());
-
+            if (Mathf.Abs(animator.GetCurrentAnimatorStateInfo(0).normalizedTime - 1f) < 0.001)
+                IsGrowthEnded = true;
             //Destroy(gameObject);
             //Destroy(bottle);
         }
@@ -76,7 +87,7 @@ public class BottleScript : MonoBehaviour
             if (npc != null)
             {
                 var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
-                if (distance < 3 && !itemIsDestroyed)
+                if (distance < slowDistance && !itemIsDestroyed)
                     SlowDown(npc);
             }
 
@@ -89,12 +100,24 @@ public class BottleScript : MonoBehaviour
         }
     }
 
+    private void StartBreakAnimation()
+    {
+        var spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = 10;
+        gameObject.transform.localScale = new Vector2(slowDistance * 5.3f, slowDistance * 5.3f);
+        transform.position = spawnPoint;
+        IsGrowthStarted = true;
+        animator = gameObject.AddComponent<Animator>();
+        animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animation/PF Village Props - Wine Bottle");
+        animator.Play("PuddleGrowth");
+    }
+
     private void UnfreezeNPCs()
     {
         foreach (var npc in npcs)
         {
             var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
-            if (distance <= 3 && itemIsDestroyed)
+            if (distance <= slowDistance && itemIsDestroyed)
                 npc.GetComponent<NavMeshAgent>().speed = 3.5f;
         }
     }
@@ -148,5 +171,11 @@ public class BottleScript : MonoBehaviour
         IsAnimationStarted = true;
 
         buttonPressed = true;
-    } 
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(spawnPoint, slowDistance);
+    }
 }
