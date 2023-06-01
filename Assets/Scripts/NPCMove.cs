@@ -20,14 +20,19 @@ public class NPCMove : MonoBehaviour
     public bool IsInfected { get; private set; }
     private Animator AnimatorController { get; set; }
 
+    private int[] lightZones;
+    private bool flashlight1, flashlight2, flashlight3, flashlight4, flashlight5;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         AnimatorController = GetComponent<Animator>();
+        lightZones = new int[5];
+        flashlight4 = true;
     }
-    
+
     void Update()
     {
         AnimatorController.speed = agent.speed / 3;
@@ -38,7 +43,27 @@ public class NPCMove : MonoBehaviour
 
     void SetTargetPosition()
     {
-        var (x, y) = (Random.Range(-95, 113), Random.Range(0, 100));
+        var rnd = Random.Range(1, 100);
+        var (x, y) = (0, 0);
+        var lightZone = 0;
+        if (flashlight1)
+            lightZones[0] = 0;
+        if (flashlight2)
+            lightZones[1] = 20;
+        if (flashlight3)
+            lightZones[2] = 35;
+        if (flashlight4)
+            lightZones[3] = 60;
+        if (flashlight5)
+            lightZones[4] = 90;
+        if (flashlight1 || flashlight2 || flashlight3 || flashlight4 || flashlight5 || rnd > 30)
+        {
+            lightZone = lightZones[Random.Range(0, lightZones.Length)];
+            (x, y) = (Random.Range(lightZone, lightZone + 10), Random.Range(lightZone, lightZone + 10));
+        }
+        if (rnd < 30)
+            (x, y) = (Random.Range(-95, 113), Random.Range(0, 100));
+        lightZones = new int[5];
         target = new Vector3(x, y, 0);
         agent.SetDestination(target);
     }
