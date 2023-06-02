@@ -18,7 +18,7 @@ public class LevelFinisher : MonoBehaviour
     {
         foreach (var npc in npcs)
         {
-            if (npc == null)
+            if (!npc.active)
                 killed++;
         }
 
