@@ -117,9 +117,12 @@ public class TurntableScript : MonoBehaviour
 
     private void MakeDamage(GameObject npc, float distance)
     {
-        var abc = npc.GetComponentInChildren<HpBar>();
-        abc.ChangeHealth(-(1 / (distance / 100)));
-        StartCoroutine(WaitFor(5));
+        if (npc.active)
+        {
+            var abc = npc.GetComponentInChildren<HpBar>();
+            abc.ChangeHealth(-(1 / (distance / 100)));
+            StartCoroutine(WaitFor(5));
+        }
     }
 
     private IEnumerator WaitFor(int seconds)

@@ -121,7 +121,7 @@ public class FearVirusItem : MonoBehaviour
         {
             yield return new WaitForSeconds(rippleInterval);
 
-            if (!npc.IsDestroyed() && npc.GetComponentInChildren<HpBar>().isInfected)
+            if (npc.active && npc.GetComponentInChildren<HpBar>().isInfected)
             {
 
                 SelectVirusArea(npc.transform.position, false, npc);

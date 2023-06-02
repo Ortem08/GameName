@@ -24,7 +24,7 @@ public class MaskScript : MonoBehaviour
         foreach (var npc in npcs)
         {
             var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
-            if (distance < 10)
+            if (distance < 10 && npc.active)
             {
                 RunAway(npc);
                 npc.GetComponentInChildren<HpBar>().ChangeHealth(-50f);
