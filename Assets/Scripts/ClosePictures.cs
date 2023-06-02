@@ -10,17 +10,8 @@ public class ClosePictures : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             Close();
-        }
     }
-
-    //public void Resume()
-    //{
-    //    Picture.SetActive(false);
-    //    Time.timeScale = 1f;
-    //    PictureIsOpen = false;
-    //}
 
     void Close()
     {

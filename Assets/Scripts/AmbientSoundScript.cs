@@ -22,21 +22,19 @@ public class AmbientSoundScript : MonoBehaviour
         var nightSoundClip = Resources.Load<AudioClip>("Sounds/night");
         for (var i = 1; i < soundsCount; i++)
         {
-            var sickSoundClip = Resources.Load<AudioClip>("Sounds/Ambient/ambientSound (" + i.ToString() + ")");
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/Ambient/ambientSound (" + i + ")");
             ambientSounds.Add(sickSoundClip);
         }
 
         source = gameObject.AddComponent<AudioSource>(); 
         source2 = gameObject.AddComponent<AudioSource>();
-        source2.volume = 0.5f;
+        source2.volume = 0.1f;
         source.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
         source.clip = nightSoundClip;
         source.loop = true;
         source.Play();
 
         StartCoroutine(WaitAndPlayAmbientSound());
-
-
     }
 
     private IEnumerator WaitAndPlayAmbientSound()

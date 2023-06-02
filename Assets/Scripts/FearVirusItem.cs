@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UIElements;
 
 public class FearVirusItem : MonoBehaviour
 {
-    public float radius = 5f;
     public float rippleInterval = 1f;
     public int maxRippleCount = 5;
     public float infectionDuration = 6f;
@@ -32,7 +29,7 @@ public class FearVirusItem : MonoBehaviour
         sickSounds = new List<AudioClip>();
         for (var i = 1; i < soundsCount; i++)
         {
-            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + i.ToString());
+            var sickSoundClip = Resources.Load<AudioClip>("Sounds/SickSounds/Sick" + i);
             sickSounds.Add(sickSoundClip);
         }
 
@@ -51,7 +48,6 @@ public class FearVirusItem : MonoBehaviour
             firstUsage = false;
             setActive = true;
             SelectVirusArea(Input.mousePosition, true, null);
-
         }
     }
 
@@ -73,13 +69,11 @@ public class FearVirusItem : MonoBehaviour
 
         var colliderInCircle = Physics2D.OverlapCircleAll(spawnPoint, radius);
         foreach(var collider in colliderInCircle)
-        {
             if (collider.gameObject.tag == "NPC" && collider.gameObject != npc && collider.gameObject.GetComponentInChildren<HpBar>().isInfected == false)
             {
                 npcCount++;
                 SprayVirus(collider);
             }
-        }
 
         if (npcCount > 0)
         {
@@ -123,22 +117,11 @@ public class FearVirusItem : MonoBehaviour
 
             if (npc.active && npc.GetComponentInChildren<HpBar>().isInfected)
             {
-
                 SelectVirusArea(npc.transform.position, false, npc);
                 var particle = npc.transform.GetChild(1).gameObject;
                 particle.SetActive(true);
                 npc.GetComponentInChildren<HpBar>().currentRippleCount++;
-
-                //Instantiate(particle, npc.transform.position, Quaternion.identity);
-                //npc.GetComponentInChildren<HpBar>().ChangeHealth(-2.5f);
-
                 npc.GetComponentInChildren<HpBar>().ChangeHealth(-5f);
-
-                //if (npc.GetComponentInChildren<HpBar>().currentRippleCount == maxRippleCount)
-                //{
-                //    npc.GetComponentInChildren<HpBar>().isInfected = false;
-                //    particle.SetActive(false);
-                //}
             }
         }
     }

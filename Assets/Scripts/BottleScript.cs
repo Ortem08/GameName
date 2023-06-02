@@ -1,9 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Timers;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -67,8 +63,6 @@ public class BottleScript : MonoBehaviour
             StartCoroutine(LookAround());
             if (Mathf.Abs(animator.GetCurrentAnimatorStateInfo(0).normalizedTime - 1f) < 0.001)
                 IsGrowthEnded = true;
-            //Destroy(gameObject);
-            //Destroy(bottle);
         }
     }
 
@@ -90,11 +84,6 @@ public class BottleScript : MonoBehaviour
                 if (distance < slowDistance && !itemIsDestroyed)
                     SlowDown(npc);
             }
-
-            //if (itemIsDestroyed)
-            //{
-            //    npc.GetComponent<NavMeshAgent>().speed = 3.5f;
-            //}
 
             yield return null;
         }
@@ -124,26 +113,8 @@ public class BottleScript : MonoBehaviour
 
     private void SlowDown(GameObject npc)
     {
-        //var wasShocked = false;
-        //var rnd = new System.Random();
         var abc = npc.GetComponent<NavMeshAgent>();
         abc.speed = 0.5f;
-        //Debug.Log("npcdofk");
-        //if (rnd.NextDouble() % 157 < 1e-4)
-        //{
-        //    Debug.Log("shock");
-        //    wasShocked = true;
-        //    abc.speed = 0;
-        //    StartCoroutine(WaitFor(10));
-        //    abc.speed = 3.5f;
-        //}
-
-        //if(!wasShocked)
-        //{
-        //    Debug.Log("not shock");
-        //    StartCoroutine(WaitFor(10));
-        //    abc.speed = 3.5f;
-        //}
     }
 
     private IEnumerator WaitFor(int seconds)

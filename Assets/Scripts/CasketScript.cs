@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class CasketScript : MonoBehaviour
 {
@@ -81,11 +80,7 @@ public class CasketScript : MonoBehaviour
                 {
                     var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
                     if (distance < DamageDistance)
-                    {
                         MakeDamage(npc, distance);
-                        //Destroy(gameObject);
-                        //Destroy(currentChest);
-                    }
                 }
             }
         }
@@ -110,7 +105,7 @@ public class CasketScript : MonoBehaviour
     private void MakeDamage(GameObject npc, float distance)
     {
         var abc = npc.GetComponentInChildren<HpBar>();
-        abc.ChangeHealth(-(1 / (distance / 100)));
+        abc.ChangeHealth(-5 / distance);
         StartCoroutine(WaitFor(5));
     }
 

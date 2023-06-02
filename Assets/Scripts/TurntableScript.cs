@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
-using UnityEngine.UIElements;
 
 public class TurntableScript : MonoBehaviour
 {
@@ -120,7 +119,7 @@ public class TurntableScript : MonoBehaviour
         if (npc.active)
         {
             var abc = npc.GetComponentInChildren<HpBar>();
-            abc.ChangeHealth(-(1 / (distance / 100)));
+            abc.ChangeHealth(-10 / distance);
             StartCoroutine(WaitFor(5));
         }
     }

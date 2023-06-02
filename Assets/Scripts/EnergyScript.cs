@@ -26,7 +26,6 @@ public class EnergyScript : MonoBehaviour
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
         audioSource.volume = 0.5f;
         audioSource.PlayOneShot(energyOpenSound);
-        Player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
     }
 
     private void Update()
@@ -38,7 +37,6 @@ public class EnergyScript : MonoBehaviour
         if (!IsDrinkSoundFinished && IsDrinkSoundStarted && !audioSource.isPlaying)
         {
             IsDrinkSoundFinished = true;
-            Player.GetComponent<PlayerControl>().BlockedByAnotherScript = false;
             SpeedUp();
             StartCoroutine(SpeedDown());
         }
@@ -51,7 +49,6 @@ public class EnergyScript : MonoBehaviour
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
             audioSource.volume = 0.5f;
             audioSource.PlayOneShot(drinkSound);
-            Player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
         }
     }
 
@@ -59,7 +56,7 @@ public class EnergyScript : MonoBehaviour
 
     private IEnumerator SpeedDown()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         Player.GetComponent<NavMeshAgent>().speed = StartSpeed;
     }
 }

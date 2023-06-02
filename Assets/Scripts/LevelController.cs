@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
@@ -20,7 +19,7 @@ public class LevelController : MonoBehaviour
 
     public void IsEndGame()
     {
-        if (sceneIndex == 4)
+        if (sceneIndex == 2)
             Invoke("LoadMainMenu", 1f);
         else
         {

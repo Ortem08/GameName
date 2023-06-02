@@ -17,10 +17,8 @@ public class LevelFinisher : MonoBehaviour
     private void Update()
     {
         foreach (var npc in npcs)
-        {
             if (!npc.active)
                 killed++;
-        }
 
         if (killed >= KillToFinish)
             LevelController.Instance.IsEndGame();

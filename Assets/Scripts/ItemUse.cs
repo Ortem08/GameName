@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -145,8 +142,6 @@ public class ItemUse : MonoBehaviour
             while (!virusScriptHolder.firstUsage)
                 yield return null;
         }
-
-
 
         Destroy(onMouseItem);
         Destroy(objectImage.gameObject);

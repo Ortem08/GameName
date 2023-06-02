@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HpBar : MonoBehaviour
 {
@@ -13,7 +11,6 @@ public class HpBar : MonoBehaviour
     public bool isInfected;
     public static List<GameObject> infectedNPCs;
     public int currentRippleCount;
-    public GameObject particleEffect;
 
     public RectTransform greenBar;
     public RectTransform whiteBar;
@@ -27,14 +24,6 @@ public class HpBar : MonoBehaviour
         isInfected = false;
         infectedNPCs = new List<GameObject>();
         fullWidth = greenBar.rect.width;
-    }
-
-    private void Update()
-    {
-        //if (isInfected)
-        //{
-        //    ChangeHealth(-0.01f);
-        //}
     }
 
     public void ChangeHealth(float value)

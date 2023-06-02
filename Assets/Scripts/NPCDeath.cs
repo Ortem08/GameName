@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Audio;
-using static Unity.VisualScripting.Member;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class NPCDeath : MonoBehaviour
 {
@@ -19,7 +15,6 @@ public class NPCDeath : MonoBehaviour
         deathFlag = false;
         gravestone = Resources.Load<GameObject>("Prefabs/Gravestone");
         clip = Resources.Load<AudioClip>("Sounds/NPCDeathSounds/Death" + random.Next(1, 11));
-
     }
 
     void Update()

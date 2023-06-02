@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -36,11 +33,6 @@ public class BottleAnimationScript : MonoBehaviour
         vector = (Spawnpoint - startPosition).normalized;
     }
 
-    void Update()
-    {
-
-    }
-
     private IEnumerator MoveBottle()
     {
         while (true)
@@ -59,23 +51,10 @@ public class BottleAnimationScript : MonoBehaviour
                 breakSoundSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
                 //breakSoundSource.volume = 0.02f;
                 breakSoundSource.PlayOneShot(soundClipBottleBreak);
-                //StartCoroutine(DestroyAfterPlaying(soundSpeaker, gameObject));
                 Destroy(gameObject);
             }
         }
     }
-
-    //private IEnumerator DestroyAfterPlaying(GameObject speaker, GameObject animationHandler)
-    //{
-    //    var Source = speaker.GetComponent<AudioSource>();
-    //    if (Source is null) yield break;
-
-    //    while (Source.isPlaying)
-    //        yield return null;
-
-    //    Destroy(animationHandler);
-    //    Destroy(speaker);
-    //}
 
     private IEnumerator WaitFor(int seconds)
     {

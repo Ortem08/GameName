@@ -4,11 +4,6 @@ using System.Net.Http.Headers;
 using NavMeshPlus.Components;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
-using UnityEngine.Experimental.AI;
-using static UnityEngine.GraphicsBuffer;
-using NavMeshSurface = Unity.AI.Navigation.NavMeshSurface;
-//using Random = System.Random;
 
 public class NPCMove : MonoBehaviour
 {
@@ -16,8 +11,6 @@ public class NPCMove : MonoBehaviour
 
     private NavMeshAgent agent;
     private Vector3 target;
-
-    public bool IsInfected { get; private set; }
     private Animator AnimatorController { get; set; }
 
     void Start()
@@ -42,39 +35,6 @@ public class NPCMove : MonoBehaviour
         target = new Vector3(x, y, 0);
         agent.SetDestination(target);
     }
-
-    //// Function to apply damage to the NPC within a given Radius
-    //public void ApplyDamage(float Radius)
-    //{
-    //    Debug.Log("NPC takes damage!");
-    //    Collider[] colliders = Physics.OverlapSphere(transform.position, Radius);
-
-    //    foreach (Collider collider in colliders)
-    //    {
-    //        var npc = collider.GetComponent<NPCMove>();
-
-    //        if (npc != null && npc.IsInfected)
-    //        {
-    //            // Apply damage to the NPC
-    //            Debug.Log("NPC takes damage!");
-    //        }
-    //    }
-    //}
-
-    //// Function to infect the NPC
-    //public void Infect()
-    //{
-    //    IsInfected = true;
-    //    // Apply infection effect to the NPC
-    //    Debug.Log("NPC gets infected!");
-    //}
-
-    //// Function to update the infection effect on the NPC
-    //public void UpdateInfectionEffect()
-    //{
-    //    // Update infection effect on the NPC
-    //    Debug.Log("NPC infection effect updated!");
-    //}
 
     private void SetAnimation()
     {

@@ -13,7 +13,7 @@ public class MaskScript : MonoBehaviour
     {
         
         Mixer = Resources.Load<AudioMixer>("AudioMixer");
-        var clip = Resources.Load<AudioClip>("Sounds/ScreamSounds/Scream" + Random.Range(1, 22).ToString());
+        var clip = Resources.Load<AudioClip>("Sounds/ScreamSounds/Scream" + Random.Range(1, 22));
         var soundSpeaker = new GameObject();
         var screamSound = soundSpeaker.AddComponent<AudioSource>();
         screamSound.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
