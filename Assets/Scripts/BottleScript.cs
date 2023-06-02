@@ -84,7 +84,7 @@ public class BottleScript : MonoBehaviour
     {
         foreach (var npc in npcs)
         {
-            if (npc != null)
+            if (npc.active)
             {
                 var distance = Mathf.Abs((npc.transform.position - spawnPoint).magnitude);
                 if (distance < slowDistance && !itemIsDestroyed)

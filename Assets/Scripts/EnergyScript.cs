@@ -24,7 +24,7 @@ public class EnergyScript : MonoBehaviour
         var energyOpenSound = Resources.Load<AudioClip>("Sounds/OpenSounds/Open" + Random.Range(1, 4));
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-        audioSource.volume = 0.02f;
+        audioSource.volume = 0.5f;
         audioSource.PlayOneShot(energyOpenSound);
         Player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
     }
@@ -49,7 +49,7 @@ public class EnergyScript : MonoBehaviour
             
             var drinkSound = Resources.Load<AudioClip>("Sounds/DrinkSounds/Drink" + Random.Range(1, 4));
             audioSource.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-            audioSource.volume = 0.02f;
+            audioSource.volume = 0.5f;
             audioSource.PlayOneShot(drinkSound);
             Player.GetComponent<PlayerControl>().BlockedByAnotherScript = true;
         }
